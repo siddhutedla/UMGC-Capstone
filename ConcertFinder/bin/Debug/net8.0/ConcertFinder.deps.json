@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ConcertFinder/1.0.0": {
+        "runtime": {
+          "ConcertFinder.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ConcertFinder/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
