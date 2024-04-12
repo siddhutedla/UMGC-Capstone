@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <!-- Error message placeholder -->
+        <span id="errorMessage" style="color: red;"></span>
+
+        <!-- Submit button -->
+        <button type="button" onclick="submitLoginForm()">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/register">Register</a></p>
+
+    <script>
+        async function submitLoginForm() {
+            try {
+                const form = document.getElementById('loginForm');
+                const formData = new FormData(form);
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    window.location.href = '/'; // Redirect to home page on successful login
+                } else {
+                    const errorMessage = await response.text();
+                    document.getElementById('errorMessage').innerText = errorMessage; // Display error message
+                }
+            } catch (error) {
+                console.error('Error submitting login form:', error);
+            }
+        }
+    </script>
+</body>
+</html>

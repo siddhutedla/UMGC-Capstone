@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h2>Welcome to Concert Finder</h2>
+
+    <!-- Check if user is logged in -->
+    <div id="loginSection">
+        <!-- Login button -->
+        <button onclick="location.href='/login'">Login</button>
+
+        <!-- Register button -->
+        <button onclick="location.href='/register'">Register</button>
+    </div>
+
+    <!-- Greeting message for logged-in user -->
+    <div id="greetingSection" style="display: none;">
+        <p>Hello <span id="username"></span>!</p>
+        <!-- Logout button -->
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Function to check if user is logged in
+        async function checkLoggedIn() {
+            try {
+                const response = await fetch('/api/isLoggedIn');
+                const isLoggedIn = await response.json();
+                console.log('Is logged in:', isLoggedIn);
+
+                if (isLoggedIn) {
+                    // Hide login section if user is logged in
+                    document.getElementById('loginSection').style.display = 'none';
+                    
+                    // Show greeting section and set username
+                    document.getElementById('greetingSection').style.display = 'block';
+                    const usernameResponse = await fetch('/api/username');
+                    const username = await usernameResponse.text();
+                    document.getElementById('username').innerText = username;
+                } else {
+                    // Show login section if user is not logged in
+                    document.getElementById('loginSection').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        }
+
+        // Function to logout
+        async function logout() {
+            try {
+                const response = await fetch('/api/logout');
+                if (response.ok) {
+                    // Redirect to home page after logout
+                    window.location.href = '/';
+                } else {
+                    console.error('Logout failed');
+                }
+            } catch (error) {
+                console.error('Error logging out:', error);
+            }
+        }
+
+        // Call checkLoggedIn function when page loads
+        checkLoggedIn();
+    </script>
+</body>
+</html>
