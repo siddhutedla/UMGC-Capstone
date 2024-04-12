@@ -25,48 +25,51 @@
     </div>
 
     <script>
-        // Function to check if user is logged in
-        async function checkLoggedIn() {
-            try {
-                const response = await fetch('/api/isLoggedIn');
-                const isLoggedIn = await response.json();
-                console.log('Is logged in:', isLoggedIn);
+        // Function to check if user is logged in and update UI
+        document.addEventListener('DOMContentLoaded', checkLoggedIn);
 
-                if (isLoggedIn) {
-                    // Hide login section if user is logged in
-                    document.getElementById('loginSection').style.display = 'none';
-                    
-                    // Show greeting section and set username
-                    document.getElementById('greetingSection').style.display = 'block';
-                    const usernameResponse = await fetch('/api/username');
-                    const username = await usernameResponse.text();
-                    document.getElementById('username').innerText = username;
-                } else {
-                    // Show login section if user is not logged in
-                    document.getElementById('loginSection').style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error checking login status:', error);
-            }
+async function checkLoggedIn() {
+    try {
+        const response = await fetch('/api/isLoggedIn');
+        if (!response.ok) throw new Error('Failed to fetch login status.');
+
+        const { isLoggedIn } = await response.json();
+        console.log('Is logged in:', isLoggedIn);
+
+        const loginSection = document.getElementById('loginSection');
+        const greetingSection = document.getElementById('greetingSection');
+
+        if (isLoggedIn) {
+            loginSection.style.display = 'none';
+            greetingSection.style.display = 'block';
+
+            const usernameResponse = await fetch('/get-username');
+            if (!usernameResponse.ok) throw new Error('Failed to fetch username.');
+
+            const username = await usernameResponse.text();
+            document.getElementById('username').innerText = username;
+        } else {
+            loginSection.style.display = 'block';
+            greetingSection.style.display = 'none';
         }
+    } catch (error) {
+        console.error('Error checking login status:', error);
+        // Optionally handle error by showing a message to the user
+    }
+}
 
-        // Function to logout
-        async function logout() {
-            try {
-                const response = await fetch('/api/logout');
-                if (response.ok) {
-                    // Redirect to home page after logout
-                    window.location.href = '/';
-                } else {
-                    console.error('Logout failed');
-                }
-            } catch (error) {
-                console.error('Error logging out:', error);
-            }
-        }
+async function logout() {
+    try {
+        const response = await fetch('/logout', { method: 'POST' });
+        if (!response.ok) throw new Error('Logout failed.');
 
-        // Call checkLoggedIn function when page loads
-        checkLoggedIn();
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Error logging out:', error);
+    }
+}
+
     </script>
+    
 </body>
 </html>
