@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\CAPSTONE\\ConcertFinder\\ConcertFinder.csproj": {}
+    "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\ConcertFinder.csproj": {}
   },
   "projects": {
-    "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\CAPSTONE\\ConcertFinder\\ConcertFinder.csproj": {
+    "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\ConcertFinder.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\CAPSTONE\\ConcertFinder\\ConcertFinder.csproj",
+        "projectUniqueName": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\ConcertFinder.csproj",
         "projectName": "ConcertFinder",
-        "projectPath": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\CAPSTONE\\ConcertFinder\\ConcertFinder.csproj",
+        "projectPath": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\ConcertFinder.csproj",
         "packagesPath": "C:\\Users\\siddh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\CAPSTONE\\ConcertFinder\\obj\\",
+        "outputPath": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\siddh\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -42,6 +42,26 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.DataProtection": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.AspNetCore.Session": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        #loginSection, #greetingSection {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            text-align: left;
+        }
+        #greetingSection {
+            display: flex;
+            justify-content: space-between; /* Ensures content is spaced out */
+            align-items: center; /* Centers items vertically */
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #greetingSection p {
+            font-size: 18px;
+            color: #007BFF;
+            font-weight: bold;
+            margin-right: 10px; /* Ensures some space between text and button */
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 300px; /* Adjusted width for a fixed size */
+        }
+        #searchButton {
+            padding: 11px 20px;
+            margin-left: 5px; /* Adjust margin to align with the search bar */
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome to Concert Finder</h2>
+
+    <div id="loginSection">
+        <button onclick="location.href='/login'">Login</button>
+        <button onclick="location.href='/register'">Register</button>
+    </div>
+
+    <div id="greetingSection">
+        <p>Hello <span id="username"></span>!</p>
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Search concerts...">
+            <button id="searchButton">Go!</button>
+        </div>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', checkLoggedIn);
+
+        async function checkLoggedIn() {
+            try {
+                const response = await fetch('/api/isLoggedIn');
+                if (!response.ok) throw new Error('Failed to fetch login status.');
+
+                const { isLoggedIn } = await response.json();
+                const loginSection = document.getElementById('loginSection');
+                const greetingSection = document.getElementById('greetingSection');
+                const searchBar = document.getElementById('searchBar');
+                const searchButton = document.getElementById('searchButton');
+
+                if (isLoggedIn) {
+                    loginSection.style.display = 'none';
+                    greetingSection.style.display = 'flex';
+                    searchBar.style.display = 'inline';
+                    searchButton.style.display = 'inline';
+
+                    const usernameResponse = await fetch('/get-username');
+                    if (!usernameResponse.ok) throw new Error('Failed to fetch username.');
+
+                    const username = await usernameResponse.text();
+                    document.getElementById('username').innerText = username;
+                } else {
+                    loginSection.style.display = 'block';
+                    greetingSection.style.display = 'none';
+                    searchBar.style.display = 'none';
+                    searchButton.style.display = 'none';
+                }
+            } catch ( error) {
+                console.error('Error checking login status:', error);
+                // Optionally handle error by showing a message to the user
+            }
+        }
+
+        async function logout() {
+            try {
+                const response = await fetch('/logout', { method: 'POST' });
+                if (!response.ok) throw new Error('Logout failed.');
+
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Error logging out:', error);
+            }
+        }
+    </script>
+</body>
+</html>
