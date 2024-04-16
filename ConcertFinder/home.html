@@ -4,72 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        #loginSection, #greetingSection {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            text-align: left;
+        }
+        #greetingSection {
+            display: flex;
+            justify-content: space-between; /* Ensures content is spaced out */
+            align-items: center; /* Centers items vertically */
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #greetingSection p {
+            font-size: 18px;
+            color: #007BFF;
+            font-weight: bold;
+            margin-right: 10px; /* Ensures some space between text and button */
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 300px; /* Adjusted width for a fixed size */
+        }
+        #searchButton {
+            padding: 11px 20px;
+            margin-left: 5px; /* Adjust margin to align with the search bar */
+        }
+    </style>
 </head>
 <body>
     <h2>Welcome to Concert Finder</h2>
 
-    <!-- Check if user is logged in -->
     <div id="loginSection">
-        <!-- Login button -->
         <button onclick="location.href='/login'">Login</button>
-
-        <!-- Register button -->
         <button onclick="location.href='/register'">Register</button>
     </div>
 
-    <!-- Greeting message for logged-in user -->
-    <div id="greetingSection" style="display: none;">
+    <div id="greetingSection">
         <p>Hello <span id="username"></span>!</p>
-        <!-- Logout button -->
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Search concerts...">
+            <button id="searchButton">Go!</button>
+        </div>
         <button onclick="logout()">Logout</button>
     </div>
 
     <script>
-        // Function to check if user is logged in and update UI
         document.addEventListener('DOMContentLoaded', checkLoggedIn);
 
-async function checkLoggedIn() {
-    try {
-        const response = await fetch('/api/isLoggedIn');
-        if (!response.ok) throw new Error('Failed to fetch login status.');
+        async function checkLoggedIn() {
+            try {
+                const response = await fetch('/api/isLoggedIn');
+                if (!response.ok) throw new Error('Failed to fetch login status.');
 
-        const { isLoggedIn } = await response.json();
-        console.log('Is logged in:', isLoggedIn);
+                const { isLoggedIn } = await response.json();
+                const loginSection = document.getElementById('loginSection');
+                const greetingSection = document.getElementById('greetingSection');
+                const searchBar = document.getElementById('searchBar');
+                const searchButton = document.getElementById('searchButton');
 
-        const loginSection = document.getElementById('loginSection');
-        const greetingSection = document.getElementById('greetingSection');
+                if (isLoggedIn) {
+                    loginSection.style.display = 'none';
+                    greetingSection.style.display = 'flex';
+                    searchBar.style.display = 'inline';
+                    searchButton.style.display = 'inline';
 
-        if (isLoggedIn) {
-            loginSection.style.display = 'none';
-            greetingSection.style.display = 'block';
+                    const usernameResponse = await fetch('/get-username');
+                    if (!usernameResponse.ok) throw new Error('Failed to fetch username.');
 
-            const usernameResponse = await fetch('/get-username');
-            if (!usernameResponse.ok) throw new Error('Failed to fetch username.');
-
-            const username = await usernameResponse.text();
-            document.getElementById('username').innerText = username;
-        } else {
-            loginSection.style.display = 'block';
-            greetingSection.style.display = 'none';
+                    const username = await usernameResponse.text();
+                    document.getElementById('username').innerText = username;
+                } else {
+                    loginSection.style.display = 'block';
+                    greetingSection.style.display = 'none';
+                    searchBar.style.display = 'none';
+                    searchButton.style.display = 'none';
+                }
+            } catch ( error) {
+                console.error('Error checking login status:', error);
+                // Optionally handle error by showing a message to the user
+            }
         }
-    } catch (error) {
-        console.error('Error checking login status:', error);
-        // Optionally handle error by showing a message to the user
-    }
-}
 
-async function logout() {
-    try {
-        const response = await fetch('/logout', { method: 'POST' });
-        if (!response.ok) throw new Error('Logout failed.');
+        async function logout() {
+            try {
+                const response = await fetch('/logout', { method: 'POST' });
+                if (!response.ok) throw new Error('Logout failed.');
 
-        window.location.href = '/';
-    } catch (error) {
-        console.error('Error logging out:', error);
-    }
-}
-
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Error logging out:', error);
+            }
+        }
     </script>
-    
 </body>
 </html>
