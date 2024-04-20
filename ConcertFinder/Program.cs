@@ -24,7 +24,7 @@ builder.Services.AddHttpClient("SeatGeekClient", client =>
 
 builder.Services.AddSession(options =>
 {
-    // Set session timeout to 20 minutes
+    // Session timeout to 20 minutes
     options.IdleTimeout = TimeSpan.FromMinutes(20);
 });
 
@@ -37,7 +37,7 @@ builder.Services.AddHttpClient("SeatGeekClient", client =>
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    // Configure your SQLite database connection here
+    // Configuration of SQLite database 
     _ = options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
@@ -65,13 +65,13 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
     });
 
-    // Example endpoint to perform an API call to SeatGeek
+    // API call to SeatGeek when searching
     _ = endpoints.MapGet("/search", async (HttpContext context) =>
     {
         var artistName = context.Request.Query["artist"]; // Retrieve the artist name from query
         var seatGeekSettings = context.RequestServices.GetRequiredService<IOptions<SeatGeekSettings>>().Value;
 
-        // Log the settings to ensure they are loaded correctly (optional)
+        // Console logging
         Console.WriteLine($"Using Client ID: {seatGeekSettings.ClientId}");
         Console.WriteLine($"Using Client Secret: {seatGeekSettings.ClientSecret}");
 
