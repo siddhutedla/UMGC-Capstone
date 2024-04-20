@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,10 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddDistributedMemoryCache();
 
+builder.Services.AddHttpClient("SeatGeekClient", client =>
+{
+    client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -48,6 +53,36 @@ app.UseEndpoints(endpoints =>
         var htmlContent = await File.ReadAllTextAsync(filePath);
         htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>"); // Inject username into HTML
         await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+    });
+
+    endpoints.MapGet("/", async (HttpContext context) =>
+    {
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "home.html");
+        var htmlContent = await File.ReadAllTextAsync(filePath);
+        var username = context.Session.GetString("Username");
+        htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>");
+        await context.Response.WriteAsync(htmlContent);
+    });
+
+    // Add endpoint for artist search
+    endpoints.MapGet("/search", async (HttpContext context) =>
+    {
+        var artist = context.Request.Query["artist"].ToString();
+        var client = context.RequestServices.GetRequiredService<IHttpClientFactory>().CreateClient("SeatGeekClient");
+        var seatGeekSettings = context.RequestServices.GetRequiredService<IOptions<SeatGeekSettings>>().Value;
+        var response = await client.GetAsync($"events?q={Uri.EscapeDataString(artist)}&client_id={seatGeekSettings.ClientId}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(json);
+        }
+        else
+        {
+            context.Response.StatusCode = (int)response.StatusCode;
+            await context.Response.WriteAsync("Failed to retrieve events");
+        }
     });
 
     endpoints.MapGet("/api/isLoggedIn", (HttpContext context) =>
@@ -146,22 +181,21 @@ app.Use(async (context, next) =>
 
 app.Run();
 
-// Database context class
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
-    public DbSet<User> Users { get; set; } // DbSet for the User entity
-
-    // Add DbSet properties for other entities as needed
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public DbSet<User> Users { get; set; }
 }
 
-// User entity class (example)
 public class User
 {
     public int Id { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
+}
+
+public class SeatGeekSettings
+{
+    public string ClientId { get; set; }
+    public string ClientSecret { get; set; } // If needed
 }
