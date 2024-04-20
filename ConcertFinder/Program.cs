@@ -10,7 +10,17 @@ using System;
 using System.IO;
 using System.Linq;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<SeatGeekSettings>(builder.Configuration.GetSection("SeatGeek"));
+
+builder.Services.AddHttpClient("SeatGeekClient", client =>
+{
+    client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
+});
+
 
 builder.Services.AddSession(options =>
 {
@@ -55,13 +65,17 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
     });
 
-    // Add endpoint for artist search
+ // Example endpoint to perform an API call to SeatGeek
     endpoints.MapGet("/search", async (HttpContext context) =>
     {
-        var artist = context.Request.Query["artist"].ToString();
-        var client = context.RequestServices.GetRequiredService<IHttpClientFactory>().CreateClient("SeatGeekClient");
         var seatGeekSettings = context.RequestServices.GetRequiredService<IOptions<SeatGeekSettings>>().Value;
-        var response = await client.GetAsync($"events?q={Uri.EscapeDataString(artist)}&client_id={seatGeekSettings.ClientId}");
+
+        // Log the settings to ensure they are loaded correctly
+        Console.WriteLine($"Using Client ID: {seatGeekSettings.ClientId}");
+        Console.WriteLine($"Using Client Secret: {seatGeekSettings.ClientSecret}");
+
+        var client = context.RequestServices.GetRequiredService<IHttpClientFactory>().CreateClient("SeatGeekClient");
+        var response = await client.GetAsync($"events?q={Uri.EscapeDataString("artistName")}&client_id={seatGeekSettings.ClientId}&client_secret={seatGeekSettings.ClientSecret}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -73,6 +87,7 @@ app.UseEndpoints(endpoints =>
         {
             context.Response.StatusCode = (int)response.StatusCode;
             await context.Response.WriteAsync("Failed to retrieve events");
+            Console.WriteLine($"Failed to retrieve events, HTTP Status: {response.StatusCode}");
         }
     });
 
@@ -80,7 +95,7 @@ app.UseEndpoints(endpoints =>
 {
     var isLoggedIn = context.Session.GetString("UserId") != null;
     return Results.Json(new { isLoggedIn });
-    });
+});
 
 
     // Serve login.html when accessing the /login URL
@@ -122,30 +137,30 @@ app.UseEndpoints(endpoints =>
         context.Response.Redirect("/login");
     });
 
-// Login endpoint
-endpoints.MapPost("/login", async (HttpContext context) =>
-{
-    var form = await context.Request.ReadFormAsync();
-    var username = form["username"].FirstOrDefault();
-    var password = form["password"].FirstOrDefault();
-
-    var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
-
-    var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
-    if (user == null)
+    // Login endpoint
+    endpoints.MapPost("/login", async (HttpContext context) =>
     {
-        context.Response.StatusCode = 400;
-        await context.Response.WriteAsync("Invalid username or password");
-        return;
-    }
+        var form = await context.Request.ReadFormAsync();
+        var username = form["username"].FirstOrDefault();
+        var password = form["password"].FirstOrDefault();
 
-    // Set session data including username
-    context.Session.SetString("UserId", user.Id.ToString());
-    context.Session.SetString("Username", user.Username); // Add this line
-    Console.WriteLine($"User {user.Username} logged in with ID {user.Id}");
-    Console.WriteLine($"Username stored in session: {context.Session.GetString("Username")}");
-    context.Response.Redirect("/");
-});
+        var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
+
+        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+        if (user == null)
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsync("Invalid username or password");
+            return;
+        }
+
+        // Set session data including username
+        context.Session.SetString("UserId", user.Id.ToString());
+        context.Session.SetString("Username", user.Username); // Add this line
+        Console.WriteLine($"User {user.Username} logged in with ID {user.Id}");
+        Console.WriteLine($"Username stored in session: {context.Session.GetString("Username")}");
+        context.Response.Redirect("/");
+    });
 
 
     // Logout endpoint
@@ -190,3 +205,4 @@ public class SeatGeekSettings
     public string ClientId { get; set; }
     public string ClientSecret { get; set; } // If needed
 }
+
