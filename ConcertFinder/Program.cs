@@ -55,15 +55,6 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
     });
 
-    endpoints.MapGet("/", async (HttpContext context) =>
-    {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "home.html");
-        var htmlContent = await File.ReadAllTextAsync(filePath);
-        var username = context.Session.GetString("Username");
-        htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>");
-        await context.Response.WriteAsync(htmlContent);
-    });
-
     // Add endpoint for artist search
     endpoints.MapGet("/search", async (HttpContext context) =>
     {
