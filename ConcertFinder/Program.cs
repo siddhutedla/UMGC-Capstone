@@ -38,7 +38,7 @@ builder.Services.AddHttpClient("SeatGeekClient", client =>
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     // Configure your SQLite database connection here
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    _ = options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 var app = builder.Build();
@@ -47,7 +47,7 @@ app.UseSession();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/error");
+    _ = app.UseExceptionHandler("/error");
 }
 
 app.UseRouting();
@@ -55,7 +55,7 @@ app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     // Serve home.html when accessing the root URL
-    endpoints.MapGet("/", async (HttpContext context) =>
+    _ = endpoints.MapGet("/", async (HttpContext context) =>
     {
         var userId = context.Session.GetString("UserId");
         var username = context.Session.GetString("Username"); // Retrieve the username from session
@@ -65,8 +65,8 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
     });
 
- // Example endpoint to perform an API call to SeatGeek
-    endpoints.MapGet("/search", async (HttpContext context) =>
+    // Example endpoint to perform an API call to SeatGeek
+    _ = endpoints.MapGet("/search", async (HttpContext context) =>
     {
         var seatGeekSettings = context.RequestServices.GetRequiredService<IOptions<SeatGeekSettings>>().Value;
 
@@ -91,7 +91,7 @@ app.UseEndpoints(endpoints =>
         }
     });
 
-    endpoints.MapGet("/api/isLoggedIn", (HttpContext context) =>
+    _ = endpoints.MapGet("/api/isLoggedIn", (HttpContext context) =>
 {
     var isLoggedIn = context.Session.GetString("UserId") != null;
     return Results.Json(new { isLoggedIn });
@@ -99,21 +99,21 @@ app.UseEndpoints(endpoints =>
 
 
     // Serve login.html when accessing the /login URL
-    endpoints.MapGet("/login", (HttpContext context) =>
+    _ = endpoints.MapGet("/login", (HttpContext context) =>
     {
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "login.html");
         return Results.File(filePath, "text/html");
     });
 
     // Serve register.html when accessing the /register URL
-    endpoints.MapGet("/register", (HttpContext context) =>
+    _ = endpoints.MapGet("/register", (HttpContext context) =>
     {
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "register.html");
         return Results.File(filePath, "text/html");
     });
 
     // Register endpoint
-    endpoints.MapPost("/register", async (HttpContext context) =>
+    _ = endpoints.MapPost("/register", async (HttpContext context) =>
     {
         var form = await context.Request.ReadFormAsync();
         var username = form["username"].FirstOrDefault();
@@ -131,14 +131,14 @@ app.UseEndpoints(endpoints =>
 
         // Save to database
         var newUser = new User { Username = username, Password = password };
-        dbContext.Users.Add(newUser);
-        await dbContext.SaveChangesAsync();
+        _ = dbContext.Users.Add(newUser);
+        _ = await dbContext.SaveChangesAsync();
 
         context.Response.Redirect("/login");
     });
 
     // Login endpoint
-    endpoints.MapPost("/login", async (HttpContext context) =>
+    _ = endpoints.MapPost("/login", async (HttpContext context) =>
     {
         var form = await context.Request.ReadFormAsync();
         var username = form["username"].FirstOrDefault();
@@ -164,7 +164,7 @@ app.UseEndpoints(endpoints =>
 
 
     // Logout endpoint
-    endpoints.MapPost("/logout", async (HttpContext context) =>
+    _ = endpoints.MapPost("/logout", async (HttpContext context) =>
     {
         // Clear session data
         context.Session.Clear();
@@ -172,6 +172,8 @@ app.UseEndpoints(endpoints =>
         context.Response.Redirect("/login");
     });
 });
+
+
 
 app.Use(async (context, next) =>
 {
