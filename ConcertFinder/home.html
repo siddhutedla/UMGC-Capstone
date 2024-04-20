@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,21 +12,28 @@
             padding: 20px;
             background-color: #f4f4f4;
         }
+
         h2 {
             color: #333;
         }
-        #loginSection, #greetingSection {
+
+        #loginSection,
+        #greetingSection {
             margin-top: 20px;
             padding: 10px;
             background-color: white;
             border-radius: 5px;
             text-align: left;
         }
+
         #greetingSection {
             display: flex;
-            justify-content: space-between; /* Ensures content is spaced out */
-            align-items: center; /* Centers items vertically */
+            justify-content: space-between;
+            /* Ensures content is spaced out */
+            align-items: center;
+            /* Centers items vertically */
         }
+
         button {
             padding: 10px 20px;
             margin: 10px 0;
@@ -36,31 +44,40 @@
             cursor: pointer;
             font-size: 16px;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         #greetingSection p {
             font-size: 18px;
             color: #007BFF;
             font-weight: bold;
-            margin-right: 10px; /* Ensures some space between text and button */
+            margin-right: 10px;
+            /* Ensures some space between text and button */
         }
+
         .search-container {
             display: flex;
             align-items: center;
         }
+
         input[type="text"] {
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            width: 300px; /* Adjusted width for a fixed size */
+            width: 300px;
+            /* Adjusted width for a fixed size */
         }
+
         #searchButton {
             padding: 11px 20px;
-            margin-left: 5px; /* Adjust margin to align with the search bar */
+            margin-left: 5px;
+            /* Adjust margin to align with the search bar */
         }
     </style>
 </head>
+
 <body>
     <h2>Welcome to Concert Finder</h2>
 
@@ -77,10 +94,13 @@
         </div>
         <button onclick="logout()">Logout</button>
     </div>
+    <div id="searchResults" style="margin-top: 20px;"></div>
+
 
     <script>
-        document.addEventListener('DOMContentLoaded', checkLoggedIn);
 
+        // Login script and error handeling
+        document.addEventListener('DOMContentLoaded', checkLoggedIn);
         async function checkLoggedIn() {
             try {
                 const response = await fetch('/api/isLoggedIn');
@@ -109,9 +129,56 @@
                     searchBar.style.display = 'none';
                     searchButton.style.display = 'none';
                 }
-            } catch ( error) {
+            } catch (error) {
                 console.error('Error checking login status:', error);
                 // Optionally handle error by showing a message to the user
+            }
+        }
+
+        // Artist Search event listener
+        document.getElementById('searchButton').addEventListener('click', function () {
+            const artistName = document.getElementById('searchBar').value.trim();
+            if (artistName) {
+                searchArtist(artistName);
+            } else {
+                alert("Please enter an artist name to search.");
+            }
+        });
+
+        async function searchArtist(artist) {
+            try {
+                const response = await fetch(`/search?artist=${encodeURIComponent(artist)}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch results.');
+                }
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                console.error('Search failed:', error);
+                alert('Failed to retrieve search results.');
+            }
+        }
+
+        // Display Search results
+        function displayResults(data) {
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = ''; // Clear any previous results
+
+            // Check if there are any events in the data
+            if (data.events && data.events.length > 0) {
+                // Iterate over the events and create HTML elements for them
+                data.events.forEach((event) => {
+                    const eventElement = document.createElement('div');
+                    eventElement.className = 'event';
+                    eventElement.innerHTML = `
+                <h4>${event.title}</h4>
+                <p>${event.venue.name} - ${event.datetime_local}</p>
+            `;
+                    resultsContainer.appendChild(eventElement);
+                });
+            } else {
+                // If no events, display a 'no results' message
+                resultsContainer.innerHTML = '<p>No results found for your search.</p>';
             }
         }
 
@@ -127,4 +194,5 @@
         }
     </script>
 </body>
+
 </html>

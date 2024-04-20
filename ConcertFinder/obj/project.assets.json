@@ -3085,19 +3085,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\siddh\\.nuget\\packages\\": {}
+    "/Users/tylerkimball/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\ConcertFinder.csproj",
+      "projectUniqueName": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/ConcertFinder.csproj",
       "projectName": "ConcertFinder",
-      "projectPath": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\ConcertFinder.csproj",
-      "packagesPath": "C:\\Users\\siddh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\obj\\",
+      "projectPath": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/ConcertFinder.csproj",
+      "packagesPath": "/Users/tylerkimball/.nuget/packages/",
+      "outputPath": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\siddh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/tylerkimball/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3164,7 +3164,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

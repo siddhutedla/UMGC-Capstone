@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,21 +10,35 @@ using System;
 using System.IO;
 using System.Linq;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<SeatGeekSettings>(builder.Configuration.GetSection("SeatGeek"));
+
+builder.Services.AddHttpClient("SeatGeekClient", client =>
+{
+    client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
+});
+
 
 builder.Services.AddSession(options =>
 {
-    // Set session timeout to 20 minutes
+    // Session timeout to 20 minutes
     options.IdleTimeout = TimeSpan.FromMinutes(20);
 });
 
 builder.Services.AddDistributedMemoryCache();
 
+builder.Services.AddHttpClient("SeatGeekClient", client =>
+{
+    client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    // Configure your SQLite database connection here
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    // Configuration of SQLite database 
+    _ = options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 var app = builder.Build();
@@ -32,7 +47,7 @@ app.UseSession();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/error");
+    _ = app.UseExceptionHandler("/error");
 }
 
 app.UseRouting();
@@ -40,7 +55,7 @@ app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     // Serve home.html when accessing the root URL
-    endpoints.MapGet("/", async (HttpContext context) =>
+    _ = endpoints.MapGet("/", async (HttpContext context) =>
     {
         var userId = context.Session.GetString("UserId");
         var username = context.Session.GetString("Username"); // Retrieve the username from session
@@ -50,29 +65,57 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
     });
 
-    endpoints.MapGet("/api/isLoggedIn", (HttpContext context) =>
-{
-    var isLoggedIn = context.Session.GetString("UserId") != null;
-    return Results.Json(new { isLoggedIn });
+    // API call to SeatGeek when searching
+    _ = endpoints.MapGet("/search", async (HttpContext context) =>
+    {
+        var artistName = context.Request.Query["artist"]; // Retrieve the artist name from query
+        var seatGeekSettings = context.RequestServices.GetRequiredService<IOptions<SeatGeekSettings>>().Value;
+
+        // Console logging
+        Console.WriteLine($"Using Client ID: {seatGeekSettings.ClientId}");
+        Console.WriteLine($"Using Client Secret: {seatGeekSettings.ClientSecret}");
+
+        var client = context.RequestServices.GetRequiredService<IHttpClientFactory>().CreateClient("SeatGeekClient");
+        var response = await client.GetAsync($"events?q={Uri.EscapeDataString(artistName)}&client_id={seatGeekSettings.ClientId}&client_secret={seatGeekSettings.ClientSecret}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(json);
+        }
+        else
+        {
+            context.Response.StatusCode = (int)response.StatusCode;
+            await context.Response.WriteAsync("Failed to retrieve events");
+            Console.WriteLine($"Failed to retrieve events, HTTP Status: {response.StatusCode}");
+        }
     });
 
 
+    _ = endpoints.MapGet("/api/isLoggedIn", (HttpContext context) =>
+{
+    var isLoggedIn = context.Session.GetString("UserId") != null;
+    return Results.Json(new { isLoggedIn });
+});
+
+
     // Serve login.html when accessing the /login URL
-    endpoints.MapGet("/login", (HttpContext context) =>
+    _ = endpoints.MapGet("/login", (HttpContext context) =>
     {
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "login.html");
         return Results.File(filePath, "text/html");
     });
 
     // Serve register.html when accessing the /register URL
-    endpoints.MapGet("/register", (HttpContext context) =>
+    _ = endpoints.MapGet("/register", (HttpContext context) =>
     {
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "register.html");
         return Results.File(filePath, "text/html");
     });
 
     // Register endpoint
-    endpoints.MapPost("/register", async (HttpContext context) =>
+    _ = endpoints.MapPost("/register", async (HttpContext context) =>
     {
         var form = await context.Request.ReadFormAsync();
         var username = form["username"].FirstOrDefault();
@@ -90,40 +133,40 @@ app.UseEndpoints(endpoints =>
 
         // Save to database
         var newUser = new User { Username = username, Password = password };
-        dbContext.Users.Add(newUser);
-        await dbContext.SaveChangesAsync();
+        _ = dbContext.Users.Add(newUser);
+        _ = await dbContext.SaveChangesAsync();
 
         context.Response.Redirect("/login");
     });
 
-// Login endpoint
-endpoints.MapPost("/login", async (HttpContext context) =>
-{
-    var form = await context.Request.ReadFormAsync();
-    var username = form["username"].FirstOrDefault();
-    var password = form["password"].FirstOrDefault();
-
-    var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
-
-    var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
-    if (user == null)
+    // Login endpoint
+    _ = endpoints.MapPost("/login", async (HttpContext context) =>
     {
-        context.Response.StatusCode = 400;
-        await context.Response.WriteAsync("Invalid username or password");
-        return;
-    }
+        var form = await context.Request.ReadFormAsync();
+        var username = form["username"].FirstOrDefault();
+        var password = form["password"].FirstOrDefault();
 
-    // Set session data including username
-    context.Session.SetString("UserId", user.Id.ToString());
-    context.Session.SetString("Username", user.Username); // Add this line
-    Console.WriteLine($"User {user.Username} logged in with ID {user.Id}");
-    Console.WriteLine($"Username stored in session: {context.Session.GetString("Username")}");
-    context.Response.Redirect("/");
-});
+        var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
+
+        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+        if (user == null)
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsync("Invalid username or password");
+            return;
+        }
+
+        // Set session data including username
+        context.Session.SetString("UserId", user.Id.ToString());
+        context.Session.SetString("Username", user.Username); // Add this line
+        Console.WriteLine($"User {user.Username} logged in with ID {user.Id}");
+        Console.WriteLine($"Username stored in session: {context.Session.GetString("Username")}");
+        context.Response.Redirect("/");
+    });
 
 
     // Logout endpoint
-    endpoints.MapPost("/logout", async (HttpContext context) =>
+    _ = endpoints.MapPost("/logout", async (HttpContext context) =>
     {
         // Clear session data
         context.Session.Clear();
@@ -131,6 +174,8 @@ endpoints.MapPost("/login", async (HttpContext context) =>
         context.Response.Redirect("/login");
     });
 });
+
+
 
 app.Use(async (context, next) =>
 {
@@ -146,22 +191,22 @@ app.Use(async (context, next) =>
 
 app.Run();
 
-// Database context class
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
-    public DbSet<User> Users { get; set; } // DbSet for the User entity
-
-    // Add DbSet properties for other entities as needed
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public DbSet<User> Users { get; set; }
 }
 
-// User entity class (example)
 public class User
 {
     public int Id { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
 }
+
+public class SeatGeekSettings
+{
+    public string ClientId { get; set; }
+    public string ClientSecret { get; set; } // If needed
+}
+
