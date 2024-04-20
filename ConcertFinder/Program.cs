@@ -68,14 +68,15 @@ app.UseEndpoints(endpoints =>
     // Example endpoint to perform an API call to SeatGeek
     _ = endpoints.MapGet("/search", async (HttpContext context) =>
     {
+        var artistName = context.Request.Query["artist"]; // Retrieve the artist name from query
         var seatGeekSettings = context.RequestServices.GetRequiredService<IOptions<SeatGeekSettings>>().Value;
 
-        // Log the settings to ensure they are loaded correctly
+        // Log the settings to ensure they are loaded correctly (optional)
         Console.WriteLine($"Using Client ID: {seatGeekSettings.ClientId}");
         Console.WriteLine($"Using Client Secret: {seatGeekSettings.ClientSecret}");
 
         var client = context.RequestServices.GetRequiredService<IHttpClientFactory>().CreateClient("SeatGeekClient");
-        var response = await client.GetAsync($"events?q={Uri.EscapeDataString("artistName")}&client_id={seatGeekSettings.ClientId}&client_secret={seatGeekSettings.ClientSecret}");
+        var response = await client.GetAsync($"events?q={Uri.EscapeDataString(artistName)}&client_id={seatGeekSettings.ClientId}&client_secret={seatGeekSettings.ClientSecret}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -90,6 +91,7 @@ app.UseEndpoints(endpoints =>
             Console.WriteLine($"Failed to retrieve events, HTTP Status: {response.StatusCode}");
         }
     });
+
 
     _ = endpoints.MapGet("/api/isLoggedIn", (HttpContext context) =>
 {

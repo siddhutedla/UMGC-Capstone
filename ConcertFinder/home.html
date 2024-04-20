@@ -135,8 +135,7 @@
             }
         }
 
-        // Artist Search and async function
-
+        // Artist Search 
         document.getElementById('searchButton').addEventListener('click', function () {
             const artistName = document.getElementById('searchBar').value.trim();
             if (artistName) {
@@ -157,6 +156,29 @@
             } catch (error) {
                 console.error('Search failed:', error);
                 alert('Failed to retrieve search results.');
+            }
+        }
+
+        // Display Search results
+        function displayResults(data) {
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = ''; // Clear any previous results
+
+            // Check if there are any events in the data
+            if (data.events && data.events.length > 0) {
+                // Iterate over the events and create HTML elements for them
+                data.events.forEach((event) => {
+                    const eventElement = document.createElement('div');
+                    eventElement.className = 'event';
+                    eventElement.innerHTML = `
+                <h4>${event.title}</h4>
+                <p>${event.venue.name} - ${event.datetime_local}</p>
+            `;
+                    resultsContainer.appendChild(eventElement);
+                });
+            } else {
+                // If no events, display a 'no results' message
+                resultsContainer.innerHTML = '<p>No results found for your search.</p>';
             }
         }
 
