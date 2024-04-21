@@ -181,7 +181,6 @@ app.UseEndpoints(endpoints =>
 
         var form = await context.Request.ReadFormAsync();
         var newPassword = form["newPassword"].FirstOrDefault();
-
         var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
         var user = await dbContext.Users.FindAsync(int.Parse(userId));
 

@@ -1,65 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Concert Finder</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        form {
-            background-color: white;
-            padding: 20px 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 340px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        label {
-            margin-bottom: 5px;
-            display: block;
-            color: #666;
-        }
-        input[type="text"], input[type="password"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin: 10px 0 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        span#error_message {
-            color: red;
-            display: block;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-    <form id="registerForm" method="post" onsubmit="return validateRegistration()">
+
+<body class="register-body">
+    <form id="registerForm" method="post" onsubmit="return validateRegistration()" class="register-form">
         <h2>Register for Concert Finder</h2>
         <div>
             <label for="username">Username:</label>
@@ -75,6 +25,7 @@
         </div>
         <span id="errorMessage"></span>
         <button type="submit">Register</button>
+        <p>Already have an account? <a href="/login">Login here</a></p>
     </form>
 
     <script>
@@ -89,7 +40,7 @@
             return true;
         }
 
-        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+        document.getElementById('registerForm').addEventListener('submit', async function (event) {
             event.preventDefault();
             if (validateRegistration()) {
                 try {
@@ -114,4 +65,5 @@
         });
     </script>
 </body>
+
 </html>

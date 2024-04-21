@@ -54,8 +54,8 @@ section {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: calc(100% - 40px); /* Considering the padding from body */
-    max-width: 800px; /* Maximum width of the form */
+    width: calc(100% - 40px);
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -97,10 +97,10 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
 
 .search-container input[type="text"] {
     padding: 10px;
-    margin-right: 5px; /* Added margin to separate the input from the button */
+    margin-right: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    width: 300px; /* Adjust width as needed */
+    width: 300px;
 }
 
 .search-container button {
@@ -115,4 +115,68 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
 
 .search-container button:hover {
     background-color: #0056b3;
+}
+
+/* Login specific styles */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.login-form {
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 340px;
+}
+
+.login-form h2 {
+    text-align: center;
+    color: #333;
+}
+
+.login-form label {
+    margin-bottom: 5px;
+    display: block;
+    color: #666;
+}
+
+.login-form input[type="text"], .login-form input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
+.login-form a {
+    color: #007BFF;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login-form span#error_message {
+    color: red;
+    display: block;
+    text-align: center;
 }
