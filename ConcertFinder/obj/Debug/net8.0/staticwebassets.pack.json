@@ -1,10 +1,6 @@
 {
   "Files": [
     {
-      "Id": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/account-settings.js",
-      "PackagePath": "staticwebassets/account-settings.js"
-    },
-    {
       "Id": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/style.css",
       "PackagePath": "staticwebassets/style.css"
     },

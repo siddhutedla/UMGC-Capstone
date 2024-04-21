@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "C7fVLob70I7ICZka1f6y6Wiq34vnqqI0VEElFJYEEfk=",
+  "Hash": "K/QT3uOYbdkYmnPWAPZdhzPGSNGezoTfzZyegaKseXM=",
   "Source": "ConcertFinder",
   "BasePath": "_content/ConcertFinder",
   "Mode": "Default",
@@ -16,25 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/account-settings.js",
-      "SourceId": "ConcertFinder",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
-      "BasePath": "_content/ConcertFinder",
-      "RelativePath": "account-settings.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/account-settings.js"
-    },
     {
       "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/style.css",
       "SourceId": "ConcertFinder",

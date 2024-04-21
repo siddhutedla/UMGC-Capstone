@@ -168,33 +168,50 @@ app.UseEndpoints(endpoints =>
         context.Response.Redirect("/login");
     });
 
-    // Change password endpoint
-    _ = endpoints.MapPost("/change-password", async (HttpContext context) =>
+    // change password endpoint
+    endpoints.MapPost("/change-password", async context =>
     {
         var userId = context.Session.GetString("UserId");
         if (string.IsNullOrEmpty(userId))
         {
-            context.Response.StatusCode = 400;
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             await context.Response.WriteAsync("User not logged in.");
             return;
         }
 
         var form = await context.Request.ReadFormAsync();
-        var newPassword = form["newPassword"].FirstOrDefault();
+        var currentPassword = form["currentPassword"].FirstOrDefault()?.Trim();
+        var newPassword = form["newPassword"].FirstOrDefault()?.Trim();
+        var confirmPassword = form["confirmPassword"].FirstOrDefault()?.Trim();
+        Console.WriteLine($"Current: {currentPassword}, New: {newPassword}, Confirm: {confirmPassword}");
         var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
         var user = await dbContext.Users.FindAsync(int.Parse(userId));
 
         if (user == null)
         {
-            context.Response.StatusCode = 404;
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
             await context.Response.WriteAsync("User not found.");
             return;
         }
 
-        user.Password = newPassword;
-        _ = await dbContext.SaveChangesAsync();
+        if (user.Password != currentPassword)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync("Current password is incorrect.");
+            return;
+        }
 
-        context.Response.Redirect("/account-settings");
+        if (newPassword != confirmPassword)
+        {
+            Console.WriteLine($"Comparing new: {newPassword} to confirm: {confirmPassword}");
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync("New passwords do not match.");
+            return;
+        }
+        user.Password = newPassword;
+        await dbContext.SaveChangesAsync();
+        context.Response.StatusCode = StatusCodes.Status200OK;
+        await context.Response.WriteAsync("Password updated successfully!");
     });
 
     // Account settings endpoint
@@ -202,7 +219,6 @@ app.UseEndpoints(endpoints =>
     {
         if (context.Session.GetString("UserId") == null)
         {
-            // User is not logged in, redirect to login page
             context.Response.Redirect("/login");
             return;
         }
