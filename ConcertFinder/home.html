@@ -1,105 +1,33 @@
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        #loginSection,
-        #greetingSection {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: white;
-            border-radius: 5px;
-            text-align: left;
-        }
-
-        #greetingSection {
-            display: flex;
-            justify-content: space-between;
-            /* Ensures content is spaced out */
-            align-items: center;
-            /* Centers items vertically */
-        }
-
-        button {
-            padding: 10px 20px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        #greetingSection p {
-            font-size: 18px;
-            color: #007BFF;
-            font-weight: bold;
-            margin-right: 10px;
-            /* Ensures some space between text and button */
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 300px;
-            /* Adjusted width for a fixed size */
-        }
-
-        #searchButton {
-            padding: 11px 20px;
-            margin-left: 5px;
-            /* Adjust margin to align with the search bar */
-        }
-    </style>
+    <title>[Page Title] - Concert Finder</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
-
 <body>
-    <h2>Welcome to Concert Finder</h2>
+    <header>
+        <div class="header-content">
+            <h2>Welcome to Concert Finder</h2>
+            <p>Hello <span id="username">[default text or empty]</span>!</p>
 
-    <div id="loginSection">
-        <button onclick="location.href='/login'">Login</button>
-        <button onclick="location.href='/register'">Register</button>
-    </div>
-
-    <div id="greetingSection">
-        <p>Hello <span id="username"></span>!</p>
-        <div class="search-container">
-            <input type="text" id="searchBar" placeholder="Search concerts...">
-            <button id="searchButton">Go!</button>
         </div>
-        <button onclick="location.href='/account-settings'">Account Settings</button> <!-- New button for account settings -->
-        <button onclick="logout()">Logout</button>
-    </div>
-    <div id="searchResults" style="margin-top: 20px;"></div>
+        <nav class="navbar">
+            <button onclick="location.href='/'" class="btn [HomeActive]">Home</button>
+            <button onclick="location.href='/account-settings'" class="btn [AccountActive]">Account</button>
+            <button onclick="logout()" class="btn">Logout</button>
+        </nav>
+    </header>
 
+    <section>
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="Search concerts...">
+        <button id="searchButton" class="btn">Search Artist</button>
+    </div>
+    <div id="searchResults"></div>
+    </section>
 
     <script>
-
         // Login script and error handeling
         document.addEventListener('DOMContentLoaded', checkLoggedIn);
         async function checkLoggedIn() {

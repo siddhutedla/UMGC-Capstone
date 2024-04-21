@@ -49,21 +49,43 @@ if (!app.Environment.IsDevelopment())
 {
     _ = app.UseExceptionHandler("/error");
 }
-
+app.UseStaticFiles();
 app.UseRouting();
 
+#pragma warning disable ASP0014 // Suggest using top level route registrations
 app.UseEndpoints(endpoints =>
 {
-    // Serve home.html when accessing the root URL
-    _ = endpoints.MapGet("/", async (HttpContext context) =>
+
+// Serve home.html when accessing the root URL
+//    _ = endpoints.MapGet("/", async (HttpContext context) =>
+//   {
+//        var userId = context.Session.GetString("UserId");
+//        var username = context.Session.GetString("Username"); // Retrieve the username from session
+//        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "home.html");
+//        var htmlContent = await File.ReadAllTextAsync(filePath);
+//        htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>"); // Inject username into HTML
+//        await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+//    });
+
+// Serve home.html - redirects user to login page instead of home - kimball
+_ = endpoints.MapGet("/", async (HttpContext context) =>
+{
+    var userId = context.Session.GetString("UserId");
+    if (userId == null)
     {
-        var userId = context.Session.GetString("UserId");
+        context.Response.Redirect("/login");
+    }
+    else
+    {
         var username = context.Session.GetString("Username"); // Retrieve the username from session
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "home.html");
         var htmlContent = await File.ReadAllTextAsync(filePath);
         htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>"); // Inject username into HTML
         await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
-    });
+    }
+});
+
+
 
     // API call to SeatGeek when searching
     _ = endpoints.MapGet("/search", async (HttpContext context) =>
@@ -111,18 +133,6 @@ app.UseEndpoints(endpoints =>
     _ = endpoints.MapGet("/register", (HttpContext context) =>
     {
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "register.html");
-        return Results.File(filePath, "text/html");
-    });
-
-    // Serve account settings.html
-    _ = endpoints.MapGet("/account-settings", (HttpContext context) =>
-    {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "account-settings.html");
-        if (!File.Exists(filePath))
-        {
-            context.Response.StatusCode = 404;
-            return Results.Text("404 Not Found: The requested page does not exist.");
-        }
         return Results.File(filePath, "text/html");
     });
 
@@ -208,13 +218,39 @@ app.UseEndpoints(endpoints =>
         }
 
         user.Password = newPassword;
-        await dbContext.SaveChangesAsync();
+        _ = await dbContext.SaveChangesAsync();
 
         context.Response.Redirect("/account-settings");
     });
 
+    // Account settings endpoint
+
+    _ = app.MapGet("/account-settings", async context =>
+    {
+        if (context.Session.GetString("UserId") == null)
+        {
+            // User is not logged in, redirect to login page
+            context.Response.Redirect("/login");
+            return;
+        }
+
+        // If the user is logged in, serve the account-settings.html page
+        var filePath = Path.Combine(app.Environment.ContentRootPath, "account-settings.html");
+        if (File.Exists(filePath))
+        {
+            await context.Response.SendFileAsync(filePath);
+        }
+        else
+        {
+            // File not found, send 404
+            context.Response.StatusCode = 404;
+            await context.Response.WriteAsync("Account settings page not found.");
+        }
+    });
+
 
 });
+#pragma warning restore ASP0014 // Suggest using top level route registrations
 
 app.Use(async (context, next) =>
 {

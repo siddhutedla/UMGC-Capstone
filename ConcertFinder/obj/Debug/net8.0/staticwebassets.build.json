@@ -1,11 +1,58 @@
 {
   "Version": 1,
-  "Hash": "fH8kxDSaASUkZh+nCXSvaDAvMaYUACGCkktB2VA6gFI=",
+  "Hash": "C7fVLob70I7ICZka1f6y6Wiq34vnqqI0VEElFJYEEfk=",
   "Source": "ConcertFinder",
   "BasePath": "_content/ConcertFinder",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "ConcertFinder/wwwroot",
+      "Source": "ConcertFinder",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "BasePath": "_content/ConcertFinder",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/account-settings.js",
+      "SourceId": "ConcertFinder",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "BasePath": "_content/ConcertFinder",
+      "RelativePath": "account-settings.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/account-settings.js"
+    },
+    {
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/style.css",
+      "SourceId": "ConcertFinder",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "BasePath": "_content/ConcertFinder",
+      "RelativePath": "style.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/style.css"
+    }
+  ]
 }

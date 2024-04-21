@@ -282,3 +282,5 @@ C:/Users/siddh/OneDrive - UMGC/SPRING 2024/Capstone/UMGC-Capstone/ConcertFinder/
 /Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/obj/Debug/net8.0/ConcertFinder.pdb
 /Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/obj/Debug/net8.0/ConcertFinder.genruntimeconfig.cache
 /Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/obj/Debug/net8.0/ref/ConcertFinder.dll
+/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/bin/Debug/net8.0/account-settings.html
+/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/bin/Debug/net8.0/ConcertFinder.staticwebassets.runtime.json

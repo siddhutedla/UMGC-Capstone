@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/account-settings.js",
+      "PackagePath": "staticwebassets/account-settings.js"
+    },
+    {
+      "Id": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/style.css",
+      "PackagePath": "staticwebassets/style.css"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.ConcertFinder.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.ConcertFinder.props",
+      "PackagePath": "build\\ConcertFinder.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.ConcertFinder.props",
+      "PackagePath": "buildMultiTargeting\\ConcertFinder.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.ConcertFinder.props",
+      "PackagePath": "buildTransitive\\ConcertFinder.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
