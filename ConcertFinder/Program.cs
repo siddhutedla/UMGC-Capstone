@@ -114,6 +114,18 @@ app.UseEndpoints(endpoints =>
         return Results.File(filePath, "text/html");
     });
 
+    // Serve account settings.html
+    _ = endpoints.MapGet("/account-settings", (HttpContext context) =>
+    {
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "account-settings.html");
+        if (!File.Exists(filePath))
+        {
+            context.Response.StatusCode = 404;
+            return Results.Text("404 Not Found: The requested page does not exist.");
+        }
+        return Results.File(filePath, "text/html");
+    });
+
     // Register endpoint
     _ = endpoints.MapPost("/register", async (HttpContext context) =>
     {
@@ -156,7 +168,7 @@ app.UseEndpoints(endpoints =>
             return;
         }
 
-        // Set session data including username
+        // Set session data
         context.Session.SetString("UserId", user.Id.ToString());
         context.Session.SetString("Username", user.Username); // Add this line
         Console.WriteLine($"User {user.Username} logged in with ID {user.Id}");
@@ -164,18 +176,45 @@ app.UseEndpoints(endpoints =>
         context.Response.Redirect("/");
     });
 
-
     // Logout endpoint
     _ = endpoints.MapPost("/logout", async (HttpContext context) =>
     {
-        // Clear session data
         context.Session.Clear();
-
         context.Response.Redirect("/login");
     });
+
+    // Change password endpoint
+    _ = endpoints.MapPost("/change-password", async (HttpContext context) =>
+    {
+        var userId = context.Session.GetString("UserId");
+        if (string.IsNullOrEmpty(userId))
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsync("User not logged in.");
+            return;
+        }
+
+        var form = await context.Request.ReadFormAsync();
+        var newPassword = form["newPassword"].FirstOrDefault();
+
+        var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
+        var user = await dbContext.Users.FindAsync(int.Parse(userId));
+
+        if (user == null)
+        {
+            context.Response.StatusCode = 404;
+            await context.Response.WriteAsync("User not found.");
+            return;
+        }
+
+        user.Password = newPassword;
+        await dbContext.SaveChangesAsync();
+
+        context.Response.Redirect("/account-settings");
+    });
+
+
 });
-
-
 
 app.Use(async (context, next) =>
 {

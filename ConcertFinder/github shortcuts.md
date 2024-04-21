@@ -1,5 +1,10 @@
 # Git Commands Shortcuts for UMGC-Capstone Project
 
+## C# Terminal Shortcuts
+- build the file
+  dotnet build
+  dotnet run
+
 ## Set Up and Configuration
 - Clone the repository:
   git clone https://github.com/siddhutedla/UMGC-Capstone.git
