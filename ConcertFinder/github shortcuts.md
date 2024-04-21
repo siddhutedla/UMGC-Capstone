@@ -1,7 +1,7 @@
 # Git Commands Shortcuts for UMGC-Capstone Project
 
 ## C# Terminal Shortcuts
-- build the file
+- How to build the program
   dotnet build
   dotnet run
 
