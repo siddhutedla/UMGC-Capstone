@@ -1,49 +1,52 @@
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Text;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure services here
 builder.Services.Configure<SeatGeekSettings>(builder.Configuration.GetSection("SeatGeek"));
 builder.Services.AddHttpClient("SeatGeekClient", client =>
-
 {
     client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
 });
 
 builder.Services.AddSession(options =>
 {
-    // Session timeout to 20 minutes
     options.IdleTimeout = TimeSpan.FromMinutes(20);
 });
 
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddHttpClient("SeatGeekClient", client =>
-{
-    client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
-});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    // Configuration of SQLite database 
-    _ = options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-app.UseSession();
-
+// Configure middlewares here
 if (!app.Environment.IsDevelopment())
 {
     _ = app.UseExceptionHandler("/error");
 }
+
+
 app.UseStaticFiles();
+app.UseSession();
 app.UseRouting();
 
-#pragma warning disable ASP0014 // Suggest using top level route registrations
 app.UseEndpoints(endpoints =>
 {
-    // Serve home.html - redirects user to login page instead of home - kimball
-    _ = endpoints.MapGet("/", async (HttpContext context) =>
+    // Map "/" to home.html
+    _ = endpoints.MapGet("/", async context =>
     {
         var userId = context.Session.GetString("UserId");
         if (userId == null)
@@ -52,26 +55,54 @@ app.UseEndpoints(endpoints =>
         }
         else
         {
-            var username = context.Session.GetString("Username"); // Retrieve the username from session
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "home.html");
+            var username = context.Session.GetString("Username");
+            var filePath = Path.Combine(app.Environment.WebRootPath, "view", "home.html");
             var htmlContent = await File.ReadAllTextAsync(filePath);
-            htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>"); // Inject username into HTML
-            await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+            htmlContent = htmlContent.Replace("[default text or empty]", username);
+            await context.Response.WriteAsync(htmlContent, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
         }
     });
 
+    // Serve login.html
+    _ = endpoints.MapGet("/login", async context =>
+    {
+        var filePath = Path.Combine(app.Environment.WebRootPath, "view", "login.html");
+        await context.Response.SendFileAsync(filePath);
+    });
 
+    // Serve register.html
+    _ = endpoints.MapGet("/register", async context =>
+    {
+        var filePath = Path.Combine(app.Environment.WebRootPath, "view", "register.html");
+        await context.Response.SendFileAsync(filePath);
+    });
+
+    // Serve account-settings.html
+    _ = endpoints.MapGet("/account-settings", async context =>
+    {
+        if (context.Session.GetString("UserId") == null)
+        {
+            context.Response.Redirect("/login");
+            return;
+        }
+        var filePath = Path.Combine(app.Environment.WebRootPath, "view", "account-settings.html");
+        await context.Response.SendFileAsync(filePath);
+    });
 
     // API call to SeatGeek when searching
-    _ = endpoints.MapGet("/search", async (HttpContext context) =>
+    _ = endpoints.MapGet("/search", async context =>
     {
-        var artistName = context.Request.Query["artist"]; // Retrieve the artist name from query
+        var artistName = context.Request.Query["artist"];
+
+        // Check if artistName is null or empty
+        if (string.IsNullOrEmpty(artistName))
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync("Artist name is required.");
+            return;
+        }
+
         var seatGeekSettings = context.RequestServices.GetRequiredService<IOptions<SeatGeekSettings>>().Value;
-
-        // Console logging
-        Console.WriteLine($"Using Client ID: {seatGeekSettings.ClientId}");
-        Console.WriteLine($"Using Client Secret: {seatGeekSettings.ClientSecret}");
-
         var client = context.RequestServices.GetRequiredService<IHttpClientFactory>().CreateClient("SeatGeekClient");
         var response = await client.GetAsync($"events?q={Uri.EscapeDataString(artistName)}&client_id={seatGeekSettings.ClientId}&client_secret={seatGeekSettings.ClientSecret}");
 
@@ -85,42 +116,25 @@ app.UseEndpoints(endpoints =>
         {
             context.Response.StatusCode = (int)response.StatusCode;
             await context.Response.WriteAsync("Failed to retrieve events");
-            Console.WriteLine($"Failed to retrieve events, HTTP Status: {response.StatusCode}");
         }
     });
 
 
-    _ = endpoints.MapGet("/api/isLoggedIn", (HttpContext context) =>
-{
-    var isLoggedIn = context.Session.GetString("UserId") != null;
-    return Results.Json(new { isLoggedIn });
-});
-
-
-    // Serve login.html when accessing the /login URL
-    _ = endpoints.MapGet("/login", (HttpContext context) =>
+    // Check login status API
+    _ = endpoints.MapGet("/api/isLoggedIn", context =>
     {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "login.html");
-        return Results.File(filePath, "text/html");
-    });
-
-    // Serve register.html when accessing the /register URL
-    _ = endpoints.MapGet("/register", (HttpContext context) =>
-    {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "register.html");
-        return Results.File(filePath, "text/html");
+        var isLoggedIn = context.Session.GetString("UserId") != null;
+        return (Task)Results.Json(new { isLoggedIn });
     });
 
     // Register endpoint
-    _ = endpoints.MapPost("/register", async (HttpContext context) =>
+    _ = endpoints.MapPost("/register", async context =>
     {
         var form = await context.Request.ReadFormAsync();
         var username = form["username"].FirstOrDefault();
         var password = form["password"].FirstOrDefault();
-
         var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
 
-        // Check if the username already exists in the database
         if (await dbContext.Users.AnyAsync(u => u.Username == username))
         {
             context.Response.StatusCode = 400;
@@ -128,21 +142,18 @@ app.UseEndpoints(endpoints =>
             return;
         }
 
-        // Save to database
         var newUser = new User { Username = username, Password = password };
         _ = dbContext.Users.Add(newUser);
         _ = await dbContext.SaveChangesAsync();
-
         context.Response.Redirect("/login");
     });
 
     // Login endpoint
-    _ = endpoints.MapPost("/login", async (HttpContext context) =>
+    _ = endpoints.MapPost("/login", async context =>
     {
         var form = await context.Request.ReadFormAsync();
         var username = form["username"].FirstOrDefault();
         var password = form["password"].FirstOrDefault();
-
         var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
 
         var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
@@ -153,23 +164,21 @@ app.UseEndpoints(endpoints =>
             return;
         }
 
-        // Set session data
         context.Session.SetString("UserId", user.Id.ToString());
-        context.Session.SetString("Username", user.Username); // Add this line
-        Console.WriteLine($"User {user.Username} logged in with ID {user.Id}");
-        Console.WriteLine($"Username stored in session: {context.Session.GetString("Username")}");
+        context.Session.SetString("Username", user.Username);
         context.Response.Redirect("/");
     });
 
     // Logout endpoint
-    _ = endpoints.MapPost("/logout", async (HttpContext context) =>
+    _ = endpoints.MapPost("/logout", context =>
     {
         context.Session.Clear();
         context.Response.Redirect("/login");
+        return Task.CompletedTask;
     });
 
-    // change password endpoint
-    endpoints.MapPost("/change-password", async context =>
+    // Change password endpoint
+    _ = endpoints.MapPost("/change-password", async context =>
     {
         var userId = context.Session.GetString("UserId");
         if (string.IsNullOrEmpty(userId))
@@ -183,74 +192,30 @@ app.UseEndpoints(endpoints =>
         var currentPassword = form["currentPassword"].FirstOrDefault()?.Trim();
         var newPassword = form["newPassword"].FirstOrDefault()?.Trim();
         var confirmPassword = form["confirmPassword"].FirstOrDefault()?.Trim();
-        Console.WriteLine($"Current: {currentPassword}, New: {newPassword}, Confirm: {confirmPassword}");
         var dbContext = context.RequestServices.GetRequiredService<AppDbContext>();
         var user = await dbContext.Users.FindAsync(int.Parse(userId));
 
-        if (user == null)
+        if (user == null || user.Password != currentPassword)
         {
-            context.Response.StatusCode = StatusCodes.Status404NotFound;
-            await context.Response.WriteAsync("User not found.");
-            return;
-        }
-
-        if (user.Password != currentPassword)
-        {
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await context.Response.WriteAsync("Current password is incorrect.");
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsync("Current password is incorrect or user not found.");
             return;
         }
 
         if (newPassword != confirmPassword)
         {
-            Console.WriteLine($"Comparing new: {newPassword} to confirm: {confirmPassword}");
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.StatusCode = 400;
             await context.Response.WriteAsync("New passwords do not match.");
             return;
         }
+
         user.Password = newPassword;
-        await dbContext.SaveChangesAsync();
-        context.Response.StatusCode = StatusCodes.Status200OK;
+        _ = await dbContext.SaveChangesAsync();
+        context.Response.StatusCode = 200;
         await context.Response.WriteAsync("Password updated successfully!");
     });
 
-    // Account settings endpoint
-    _ = app.MapGet("/account-settings", async context =>
-    {
-        if (context.Session.GetString("UserId") == null)
-        {
-            context.Response.Redirect("/login");
-            return;
-        }
-
-        // If the user is logged in, serve the account-settings.html page
-        var filePath = Path.Combine(app.Environment.ContentRootPath, "account-settings.html");
-        if (File.Exists(filePath))
-        {
-            await context.Response.SendFileAsync(filePath);
-        }
-        else
-        {
-            // File not found, send 404
-            context.Response.StatusCode = 404;
-            await context.Response.WriteAsync("Account settings page not found.");
-        }
-    });
-
-
-});
-#pragma warning restore ASP0014 // Suggest using top level route registrations
-
-app.Use(async (context, next) =>
-{
-    if (context.Request.Path != "/login" && !context.Session.Keys.Contains("UserId"))
-    {
-        // Redirect to login if user is not authenticated
-        context.Response.Redirect("/login");
-        return;
-    }
-
-    await next();
+    // ... add other endpoints as needed ...
 });
 
 app.Run();
@@ -264,13 +229,13 @@ public class AppDbContext : DbContext
 public class User
 {
     public int Id { get; set; }
-    public string Username { get; set; }
-    public string Password { get; set; }
+    public string Username { get; set; } = string.Empty; // Initialize as empty string
+    public string Password { get; set; } = string.Empty; // Initialize as empty string
 }
 
 public class SeatGeekSettings
 {
-    public string ClientId { get; set; }
-    public string ClientSecret { get; set; } // If needed
+    public string ClientId { get; set; } = string.Empty; // Initialize as empty string
+    public string ClientSecret { get; set; } = string.Empty; // Initialize as empty string
 }
 

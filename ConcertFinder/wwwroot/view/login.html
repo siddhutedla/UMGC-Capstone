@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Concert Finder</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="login-body">
     <form id="loginForm" method="post" onsubmit="return validateForm()" class="login-form">
@@ -22,18 +22,8 @@
         <p>Don't have an account? <a href="/register">Register here</a></p>
     </form>
 
-    <script>
-        function validateForm() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            if (username.match(/^[a-zA-Z0-9_.-]*$/) && password.match(/^[a-zA-Z0-9_.-]*$/)) {
-                return true;
-            } else {
-                document.getElementById('errorMessage').innerText = 'Invalid username or password format.';
-                return false;
-            }
-        }
-    </script>
+    <script src="/js/login.js"></script> <!-- Link to your new JS file -->
 </body>
 </html>
+
 
