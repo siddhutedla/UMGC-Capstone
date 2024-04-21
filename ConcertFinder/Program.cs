@@ -1,26 +1,14 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.IO;
-using System.Linq;
-
-
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.Configure<SeatGeekSettings>(builder.Configuration.GetSection("SeatGeek"));
-
 builder.Services.AddHttpClient("SeatGeekClient", client =>
+
 {
     client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
 });
-
 
 builder.Services.AddSession(options =>
 {
@@ -29,7 +17,6 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddDistributedMemoryCache();
-
 builder.Services.AddHttpClient("SeatGeekClient", client =>
 {
     client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
@@ -55,35 +42,23 @@ app.UseRouting();
 #pragma warning disable ASP0014 // Suggest using top level route registrations
 app.UseEndpoints(endpoints =>
 {
-
-// Serve home.html when accessing the root URL
-//    _ = endpoints.MapGet("/", async (HttpContext context) =>
-//   {
-//        var userId = context.Session.GetString("UserId");
-//        var username = context.Session.GetString("Username"); // Retrieve the username from session
-//        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "home.html");
-//        var htmlContent = await File.ReadAllTextAsync(filePath);
-//        htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>"); // Inject username into HTML
-//        await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
-//    });
-
-// Serve home.html - redirects user to login page instead of home - kimball
-_ = endpoints.MapGet("/", async (HttpContext context) =>
-{
-    var userId = context.Session.GetString("UserId");
-    if (userId == null)
+    // Serve home.html - redirects user to login page instead of home - kimball
+    _ = endpoints.MapGet("/", async (HttpContext context) =>
     {
-        context.Response.Redirect("/login");
-    }
-    else
-    {
-        var username = context.Session.GetString("Username"); // Retrieve the username from session
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "home.html");
-        var htmlContent = await File.ReadAllTextAsync(filePath);
-        htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>"); // Inject username into HTML
-        await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
-    }
-});
+        var userId = context.Session.GetString("UserId");
+        if (userId == null)
+        {
+            context.Response.Redirect("/login");
+        }
+        else
+        {
+            var username = context.Session.GetString("Username"); // Retrieve the username from session
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "home.html");
+            var htmlContent = await File.ReadAllTextAsync(filePath);
+            htmlContent = htmlContent.Replace("<span id=\"username\"></span>", $"<span id=\"username\">{username}</span>"); // Inject username into HTML
+            await context.Response.WriteAsync(htmlContent, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+        }
+    });
 
 
 
@@ -224,7 +199,6 @@ _ = endpoints.MapGet("/", async (HttpContext context) =>
     });
 
     // Account settings endpoint
-
     _ = app.MapGet("/account-settings", async context =>
     {
         if (context.Session.GetString("UserId") == null)
