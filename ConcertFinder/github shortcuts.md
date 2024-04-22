@@ -12,6 +12,11 @@
 - Navigate into the project directory:
   cd UMGC-Capstone
 
+  or
+
+  - Navigate into the project directory:
+  cd ConcertFinder
+
 ## Basic Operations
 - Check current status:
   git status

@@ -3,7 +3,10 @@ using ConcertFinder.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ConcertFinder.Controllers
@@ -17,11 +20,12 @@ namespace ConcertFinder.Controllers
             _dbContext = dbContext;
         }
 
+        // Registration
         [HttpPost("/register")]
         public async Task<IActionResult> Register(IFormCollection form)
         {
             var username = form["username"].FirstOrDefault();
-            var password = form["password"].FirstOrDefault();
+            var password = HashPassword(form["password"].FirstOrDefault());
 
             if (await _dbContext.Users.AnyAsync(u => u.Username == username))
             {
@@ -35,11 +39,12 @@ namespace ConcertFinder.Controllers
             return Redirect("/login");
         }
 
+        // Login
         [HttpPost("/login")]
         public async Task<IActionResult> Login(IFormCollection form)
         {
             var username = form["username"].FirstOrDefault();
-            var password = form["password"].FirstOrDefault();
+            var password = HashPassword(form["password"].FirstOrDefault());
 
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
 
@@ -54,6 +59,7 @@ namespace ConcertFinder.Controllers
             return Redirect("/");
         }
 
+        // Logout
         [HttpPost("/logout")]
         public IActionResult Logout()
         {
@@ -61,6 +67,7 @@ namespace ConcertFinder.Controllers
             return Redirect("/login");
         }
 
+        // Change Password
         [HttpPost("/change-password")]
         public async Task<IActionResult> ChangePassword(IFormCollection form)
         {
@@ -70,9 +77,9 @@ namespace ConcertFinder.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized, "User not logged in");
             }
 
-            var currentPassword = form["currentPassword"].FirstOrDefault();
-            var newPassword = form["newPassword"].FirstOrDefault();
-            var confirmPassword = form["confirmPassword"].FirstOrDefault();
+            var currentPassword = HashPassword(form["currentPassword"].FirstOrDefault());
+            var newPassword = HashPassword(form["newPassword"].FirstOrDefault());
+            var confirmPassword = HashPassword(form["confirmPassword"].FirstOrDefault());
 
             var user = await _dbContext.Users.FindAsync(int.Parse(userId));
 
@@ -90,6 +97,16 @@ namespace ConcertFinder.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Ok("Password updated successfully");
+        }
+
+        // Hash passwords
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLowerInvariant();
+            }
         }
     }
 }
