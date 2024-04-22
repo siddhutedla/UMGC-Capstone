@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Qb9kwHvrNy0RqJhb5TYaRhcyE0fVmBa5+JWMNDhKQZo=",
+  "Hash": "iFGMIxn1i6CKmNLchxmFgXrFVfImS1S1UjqndVkl9ZA=",
   "Source": "ConcertFinder",
   "BasePath": "_content/ConcertFinder",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "ConcertFinder/wwwroot",
       "Source": "ConcertFinder",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/css/style.css",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/css/style.css",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "css/style.css",
       "AssetKind": "All",
@@ -36,10 +36,10 @@
       "OriginalItemSpec": "wwwroot/css/style.css"
     },
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/js/account-settings.js",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/js/account-settings.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "js/account-settings.js",
       "AssetKind": "All",
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "wwwroot/js/account-settings.js"
     },
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/js/home.js",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/js/home.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "js/home.js",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot/js/home.js"
     },
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/js/login.js",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/js/login.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "js/login.js",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot/js/login.js"
     },
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/js/register.js",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/js/register.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "js/register.js",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot/js/register.js"
     },
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/view/account-settings.html",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/view/account-settings.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "view/account-settings.html",
       "AssetKind": "All",
@@ -131,10 +131,10 @@
       "OriginalItemSpec": "wwwroot/view/account-settings.html"
     },
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/view/home.html",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/view/home.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "view/home.html",
       "AssetKind": "All",
@@ -150,10 +150,10 @@
       "OriginalItemSpec": "wwwroot/view/home.html"
     },
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/view/login.html",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/view/login.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "view/login.html",
       "AssetKind": "All",
@@ -169,10 +169,10 @@
       "OriginalItemSpec": "wwwroot/view/login.html"
     },
     {
-      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/view/register.html",
+      "Identity": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/view/register.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "ContentRoot": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "view/register.html",
       "AssetKind": "All",
