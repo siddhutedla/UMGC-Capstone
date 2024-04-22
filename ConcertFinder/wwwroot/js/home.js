@@ -57,28 +57,44 @@ async function searchArtist(artist) {
     }
 }
 
-// Display Search results
-function displayResults(data) {
+function displayResults(data, append = false) {
     const resultsContainer = document.getElementById('searchResults');
-    resultsContainer.innerHTML = ''; // Clear any previous results
+    if (!append) {
+        resultsContainer.innerHTML = ''; // Clear previous results if not appending
+    }
 
-    // Check if there are any events in the data
     if (data.events && data.events.length > 0) {
-        // Iterate over the events and create HTML elements for them
-        data.events.forEach((event) => {
+        data.events.forEach(event => {
+            const dateTime = new Date(event.datetime_local);
+            const formattedDate = dateTime.toLocaleString('en-US', {
+                year: 'numeric', // "2024"
+                month: 'long', // "April"
+                day: 'numeric', // "26"
+                hour: 'numeric', // "9"
+                minute: '2-digit', // "00"
+                hour12: true // "AM/PM" format
+            });
+
             const eventElement = document.createElement('div');
             eventElement.className = 'event';
+            const imageSrc = event.performers[0]?.images?.huge || 'placeholder-image-url.jpg'; // Replace with a placeholder if no image is available
+
             eventElement.innerHTML = `
-        <h4>${event.title}</h4>
-        <p>${event.venue.name} - ${event.datetime_local}</p>
-    `;
+                <img src="${imageSrc}" alt="${event.performers[0]?.name}">
+                <div class="event-details">
+                    <h4>${event.title}</h4>
+                    <p>${event.venue.name}, ${event.venue.city} - ${formattedDate}</p>
+                    <p>Performers: ${event.performers.map(p => p.name).join(", ")}</p>
+                </div>
+                <a href="${event.url}" target="_blank" class="buy-tickets">Buy Tickets</a>
+            `;
             resultsContainer.appendChild(eventElement);
         });
     } else {
-        // If no events, display a 'no results' message
         resultsContainer.innerHTML = '<p>No results found for your search.</p>';
     }
 }
+
 
 async function logout() {
     try {

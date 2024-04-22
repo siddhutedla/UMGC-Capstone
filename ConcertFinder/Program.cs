@@ -37,6 +37,9 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/error");
 }
 
+// Get Username
+
+
 app.UseStaticFiles(); // For serving static files in wwwroot.
 app.UseSession(); // For managing user sessions.
 app.UseRouting(); // For URL routing.

@@ -39,6 +39,21 @@ namespace ConcertFinder.Controllers
             return PhysicalFile(filePath, "text/html");
         }
 
+        // Get Username
+        [HttpGet("get-username")]
+        public IActionResult GetUsername()
+        {
+            var username = HttpContext.Session.GetString("Username");
+            if (!string.IsNullOrEmpty(username))
+            {
+                return Ok(new { Username = username });
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
         [HttpGet("/account-settings")]
         public async Task<IActionResult> AccountSettings()
         {
