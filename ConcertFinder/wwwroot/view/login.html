@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Concert Finder</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-body">
+    <form id="loginForm" method="post" onsubmit="return validateForm()" class="login-form">
+        <h2>Login to Concert Finder</h2>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required pattern="^[a-zA-Z0-9_.-]*$">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required pattern="^[a-zA-Z0-9_.-]*$">
+        </div>
+        <span id="errorMessage"></span>
+        <button type="submit">Login</button>
+        <p>Don't have an account? <a href="/register">Register here</a></p>
+    </form>
+
+    <script src="/js/login.js"></script> 
+</body>
+</html>
+
+

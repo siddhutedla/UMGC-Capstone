@@ -1,11 +1,21 @@
 # Git Commands Shortcuts for UMGC-Capstone Project
 
+## C# Terminal Shortcuts
+- How to build the program
+  dotnet build
+  dotnet run
+
 ## Set Up and Configuration
 - Clone the repository:
   git clone https://github.com/siddhutedla/UMGC-Capstone.git
 
 - Navigate into the project directory:
   cd UMGC-Capstone
+
+  or
+
+  - Navigate into the project directory:
+  cd ConcertFinder
 
 ## Basic Operations
 - Check current status:

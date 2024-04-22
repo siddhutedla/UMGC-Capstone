@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - Concert Finder</title>
+    <link rel="stylesheet" href="/css/style.css"> 
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h2>Welcome to Concert Finder</h2>
+            <p>Hello, <span id="usernameDisplay"></span>!</p>
+        </div>
+        <nav class="navbar">
+            <button onclick="location.href='/'" class="btn">Home</button>
+            <button onclick="location.href='/account-settings'" class="btn active">Account</button>
+            <button onclick="logout()" class="btn">Logout</button>
+        </nav>
+    </header>
+
+    <section id="passwordChangeSection">
+        <h2>Change Password</h2>
+        <form id="passwordChangeForm">
+            <div class="form-group">
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <div class="form-action">
+                <button type="submit" class="btn">Update Password</button>
+            </div>
+        </form>
+    </section>
+
+    <script src="/js/account-settings.js"></script> 
+</body>
+</html>
