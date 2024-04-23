@@ -224,32 +224,27 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
     padding-left: 20px; 
 }
 
-.buy-tickets {
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.search-button-results {
     display: inline-block;
     background-color: #007BFF;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 10px; /* Adjusted padding */
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
-    white-space: nowrap; 
+    margin-bottom: 10px; /* Separation between buttons */
+    width: 100%; /* Adjusted width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.buy-tickets:hover {
+.search-button-results:hover {
     background-color: #0056b3;
 }
 
-
-.buy-tickets {
-    display: inline-block;
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.buy-tickets:hover {
-    background-color: #0056b3;
-}

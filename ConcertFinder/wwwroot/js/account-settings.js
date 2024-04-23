@@ -4,15 +4,20 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             if (data.isLoggedIn) {
                 fetch('/get-username')
-                    .then(response => response.text())
-                    .then(username => {
-                        document.getElementById('usernameDisplay').textContent = username;
+                    .then(response => response.json()) 
+                    .then(data => {
+                        if (data.username) { // Change "Username" to "username"
+                            document.getElementById('usernameDisplay').textContent = data.username; // Adjusted to lowercase "u"
+                        } else {
+                            console.error('Username not found:', data);
+                        }
                     });
             } else {
                 window.location.href = '/login';
             }
         });
 });
+
 
 document.getElementById('passwordChangeForm').addEventListener('submit', function (event) {
     event.preventDefault();

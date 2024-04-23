@@ -39,9 +39,8 @@ if (!app.Environment.IsDevelopment())
 
 // Get Username
 
-
-app.UseStaticFiles(); // For serving static files in wwwroot.
 app.UseSession(); // For managing user sessions.
+app.UseStaticFiles(); // For serving static files in wwwroot.
 app.UseRouting(); // For URL routing.
 
 // Map controllers using attribute routing.

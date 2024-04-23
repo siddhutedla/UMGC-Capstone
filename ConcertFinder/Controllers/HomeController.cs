@@ -8,6 +8,29 @@ namespace ConcertFinder.Controllers
 {
     public class HomeController : Controller
     {
+
+        [HttpGet("/api/isLoggedIn")]
+        public IActionResult IsLoggedIn()
+        {
+            bool isLoggedIn = HttpContext.Session.GetString("UserId") != null;
+            return Ok(new { IsLoggedIn = isLoggedIn });
+        }
+
+        [HttpGet("/get-username")]
+        public IActionResult GetUsername()
+        {
+            var username = HttpContext.Session.GetString("Username");
+            if (!string.IsNullOrEmpty(username))
+            {
+                return Ok(new { username = username });  // Ensure this is lowercase "username"
+            }
+            else
+            {
+                return Unauthorized("User is not logged in.");
+            }
+        }
+
+
         [HttpGet("/")]
         public async Task<IActionResult> Index()
         {
@@ -39,20 +62,6 @@ namespace ConcertFinder.Controllers
             return PhysicalFile(filePath, "text/html");
         }
 
-        // Get Username
-        [HttpGet("get-username")]
-        public IActionResult GetUsername()
-        {
-            var username = HttpContext.Session.GetString("Username");
-            if (!string.IsNullOrEmpty(username))
-            {
-                return Ok(new { Username = username });
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
 
         [HttpGet("/account-settings")]
         public async Task<IActionResult> AccountSettings()
