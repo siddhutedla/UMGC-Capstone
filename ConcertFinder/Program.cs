@@ -8,7 +8,7 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to container
 builder.Services.AddControllers(); // This will add support for controllers.
 
 // Configure SeatGeek settings and HTTP client.
@@ -18,14 +18,14 @@ builder.Services.AddHttpClient("SeatGeekClient", client =>
     client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
 });
 
-// Configure session state with a distributed memory cache.
+// Configure session state with memory cache
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(20);
 });
 builder.Services.AddDistributedMemoryCache();
 
-// Add DbContext using SQLite.
+// Add DbContext using SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -37,9 +37,11 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/error");
 }
 
-app.UseStaticFiles(); // For serving static files in wwwroot.
-app.UseSession(); // For managing user sessions.
-app.UseRouting(); // For URL routing.
+// Get Username
+
+app.UseSession(); 
+app.UseStaticFiles(); 
+app.UseRouting();
 
 // Map controllers using attribute routing.
 app.MapControllers();

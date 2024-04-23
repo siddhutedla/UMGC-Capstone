@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/ConcertFinder.csproj": {}
+    "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/ConcertFinder.csproj": {}
   },
   "projects": {
-    "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/ConcertFinder.csproj": {
+    "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/ConcertFinder.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/ConcertFinder.csproj",
+        "projectUniqueName": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/ConcertFinder.csproj",
         "projectName": "ConcertFinder",
-        "projectPath": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/ConcertFinder.csproj",
+        "projectPath": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/ConcertFinder.csproj",
         "packagesPath": "/Users/tylerkimball/.nuget/packages/",
-        "outputPath": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/UMGC-Capstone/ConcertFinder/obj/",
+        "outputPath": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/tylerkimball/.nuget/NuGet/NuGet.Config"

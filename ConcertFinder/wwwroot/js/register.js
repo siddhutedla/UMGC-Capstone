@@ -21,7 +21,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
             });
 
             if (response.ok) {
-                window.location.href = '/login'; // Redirect to login page on successful registration
+                window.location.href = '/login'; 
             } else {
                 const errorMessage = await response.text();
                 document.getElementById('errorMessage').innerText = errorMessage;
