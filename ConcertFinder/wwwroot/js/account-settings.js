@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(response => response.json()) 
                     .then(data => {
                         if (data.username) { // Change "Username" to "username"
-                            document.getElementById('usernameDisplay').textContent = data.username; // Adjusted to lowercase "u"
+                            document.getElementById('usernameDisplay').textContent = data.username; 
                         } else {
                             console.error('Username not found:', data);
                         }
@@ -53,7 +53,6 @@ document.getElementById('passwordChangeForm').addEventListener('submit', functio
             alert('Failed to update password.');
         });
 });
-
 
 function logout() {
     fetch('/logout', { method: 'POST' })

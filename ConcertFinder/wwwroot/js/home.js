@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             if (data.isLoggedIn) {
                 fetch('/get-username')
-                    .then(response => response.json()) 
+                    .then(response => response.json())
                     .then(data => {
-                        if (data.username) { // Change "Username" to "username"
+                        if (data.username) { 
                             document.getElementById('usernameDisplay').textContent = data.username;
                         } else {
                             console.error('Username not found:', data);
@@ -46,7 +46,7 @@ async function searchArtist(artist) {
 function displayResults(data, append = false) {
     const resultsContainer = document.getElementById('searchResults');
     if (!append) {
-        resultsContainer.innerHTML = ''; // Clear previous results if not appending
+        resultsContainer.innerHTML = '';
     }
 
     if (data.events && data.events.length > 0) {
@@ -63,7 +63,7 @@ function displayResults(data, append = false) {
 
             const eventElement = document.createElement('div');
             eventElement.className = 'event';
-            const imageSrc = event.performers[0]?.images?.huge || 'placeholder-image-url.jpg'; // Replace with a placeholder if no image is available
+            const imageSrc = event.performers[0]?.images?.huge || 'placeholder-image-url.jpg';
 
             eventElement.innerHTML = `
             <img src="${imageSrc}" alt="${event.performers[0]?.name}">
@@ -78,7 +78,7 @@ function displayResults(data, append = false) {
                 <a href="#" class="search-button-results">Directions</a>
             </div>
         `;
-        
+
 
             resultsContainer.appendChild(eventElement);
         });

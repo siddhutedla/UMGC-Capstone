@@ -22,7 +22,7 @@ namespace ConcertFinder.Controllers
             var username = HttpContext.Session.GetString("Username");
             if (!string.IsNullOrEmpty(username))
             {
-                return Ok(new { username = username });  // Ensure this is lowercase "username"
+                return Ok(new { username = username });  
             }
             else
             {
