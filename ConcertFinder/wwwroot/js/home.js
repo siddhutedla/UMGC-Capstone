@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.isLoggedIn) {
+                fetchRecommendations(); // Fetch recommendations
                 fetch('/get-username')
                     .then(response => response.json())
                     .then(data => {
@@ -36,12 +37,65 @@ async function searchArtist(artist) {
             throw new Error('Failed to fetch results.');
         }
         const data = await response.json();
+        if (data.events && data.events.length > 0) {
+            const genres = data.events[0].performers[0].genres;
+            if (genres && genres.length > 0) {
+                // Assuming the first genre is the primary one
+                sessionStorage.setItem('lastGenre', genres[0].slug);
+                console.log("grenre set to", genres[0].slug);
+            }
+        }
         displayResults(data);
     } catch (error) {
         console.error('Search failed:', error);
         alert('Failed to retrieve search results.');
     }
 }
+
+function fetchRecommendations() {
+    const lastGenre = sessionStorage.getItem('lastGenre') || 'rock';  // Default genre set to 'rock' if nothing is stored
+
+    fetch(`/recommendations?genre=${encodeURIComponent(lastGenre)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayRecommendations(data);
+        })
+        .catch(error => {
+            console.error('Fetch recommendations failed:', error);
+        });
+}
+
+function displayRecommendations(data) {
+    const resultsContainer = document.getElementById('recommendationsList');
+    resultsContainer.innerHTML = ''; // Clear previous content
+
+    if (data && data.performers && data.performers.length > 0) {
+        data.performers.slice(0, 6).forEach(performer => { // Only take the first 6 performers
+            const performerDiv = document.createElement('div');
+            performerDiv.className = 'performer';
+            performerDiv.innerHTML = `
+                <div class="performer-image">
+                    <img src="${performer.images.huge || 'placeholder-image-url.jpg'}" alt="${performer.name}">
+                </div>
+                <div class="performer-details">
+                    <h4>${performer.name}</h4>
+                    <p><a href="${performer.url}" target="_blank">More Info</a></p>
+                </div>
+            `;
+            resultsContainer.appendChild(performerDiv);
+        });
+    } else {
+        resultsContainer.innerHTML = '<p>No recommendations found.</p>';
+    }
+}
+
+
+
 
 function displayResults(data, append = false) {
     const resultsContainer = document.getElementById('searchResults');
@@ -86,6 +140,7 @@ function displayResults(data, append = false) {
         resultsContainer.innerHTML = '<p>No results found for your search.</p>';
     }
 }
+
 
 
 async function logout() {

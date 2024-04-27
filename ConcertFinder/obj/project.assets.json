@@ -773,6 +773,19 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         }
       },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_e_sqlite3/2.1.6": {
         "type": "package",
         "dependencies": {
@@ -2418,6 +2431,36 @@
         "mono.texttemplating.nuspec"
       ]
     },
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.6": {
       "sha512": "BmAf6XWt4TqtowmiWe4/5rRot6GerAeklmOPfviOvwLoF5WwgxcJHAxZtySuyW9r9w+HLILnm8VfJFLCUJYW8A==",
       "type": "package",
@@ -3081,23 +3124,24 @@
       "Microsoft.AspNetCore.DataProtection >= 8.0.4",
       "Microsoft.AspNetCore.Session >= 2.2.0",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.4",
-      "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.4"
+      "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.4",
+      "Newtonsoft.Json >= 13.0.3"
     ]
   },
   "packageFolders": {
-    "/Users/tylerkimball/.nuget/packages/": {}
+    "C:\\Users\\siddh\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/ConcertFinder.csproj",
+      "projectUniqueName": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\ConcertFinder.csproj",
       "projectName": "ConcertFinder",
-      "projectPath": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/ConcertFinder.csproj",
-      "packagesPath": "/Users/tylerkimball/.nuget/packages/",
-      "outputPath": "/Users/tylerkimball/Documents/Code/VSCode Quick Start/ConcertFinder/obj/",
+      "projectPath": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\ConcertFinder.csproj",
+      "packagesPath": "C:\\Users\\siddh\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/tylerkimball/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\siddh\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3143,6 +3187,10 @@
           "Microsoft.EntityFrameworkCore.Sqlite": {
             "target": "Package",
             "version": "[8.0.4, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [
@@ -3164,7 +3212,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

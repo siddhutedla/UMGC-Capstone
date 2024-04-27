@@ -44,5 +44,34 @@ namespace ConcertFinder.Controllers
                 return StatusCode((int)response.StatusCode, "Failed to retrieve events");
             }
         }
+
+        [HttpGet("/recommendations")]
+        public async Task<IActionResult> GetRecommendations(string genre)
+        {
+            _logger.LogInformation($"Fetching recommendations for genre: {genre}");
+            if (string.IsNullOrEmpty(genre))
+            {
+                _logger.LogWarning("Recommendation fetch attempted without genre specification.");
+                return StatusCode(StatusCodes.Status400BadRequest, "Genre is required");
+            }
+
+            var client = _clientFactory.CreateClient("SeatGeekClient");
+            var url = $"performers?genres.slug={Uri.EscapeDataString(genre)}&client_id={_seatGeekSettings.ClientId}&client_secret={_seatGeekSettings.ClientSecret}";
+            var response = await client.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return Content(json, "application/json");
+            }
+            else
+            {
+                _logger.LogError($"Failed to retrieve recommendations for genre {genre}. Status code: {response.StatusCode}.");
+                return StatusCode((int)response.StatusCode, "Failed to retrieve recommendations");
+            }
+        }
+
+
+
     }
 }

@@ -248,3 +248,57 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
     background-color: #0056b3;
 }
 
+.recommendation-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recommendations-section h3 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.performer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.performer-image img {
+    width: 100%; /* Make image fill the container */
+    height: 200px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensure the image covers the area nicely */
+}
+
+.performer-details {
+    padding: 10px;
+    text-align: center; /* Center the text within the details section */
+}
+
+.performer-details h4 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.performer-details p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.performer-details a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+
