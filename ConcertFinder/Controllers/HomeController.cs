@@ -22,7 +22,7 @@ namespace ConcertFinder.Controllers
             var username = HttpContext.Session.GetString("Username");
             if (!string.IsNullOrEmpty(username))
             {
-                return Ok(new { username = username });  
+                return Ok(new { username = username });
             }
             else
             {
@@ -59,6 +59,13 @@ namespace ConcertFinder.Controllers
         public async Task<IActionResult> Register()
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "register.html");
+            return PhysicalFile(filePath, "text/html");
+        }
+
+        [HttpGet("/pins")]
+        public IActionResult Pins()
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "pins.html");
             return PhysicalFile(filePath, "text/html");
         }
 
