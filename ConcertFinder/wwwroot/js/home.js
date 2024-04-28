@@ -94,9 +94,6 @@ function displayRecommendations(data) {
     }
 }
 
-
-
-
 function displayResults(data, append = false) {
     const resultsContainer = document.getElementById('searchResults');
     if (!append) {
@@ -107,12 +104,12 @@ function displayResults(data, append = false) {
         data.events.forEach(event => {
             const dateTime = new Date(event.datetime_local);
             const formattedDate = dateTime.toLocaleString('en-US', {
-                year: 'numeric', // "2024"
-                month: 'long', // "April"
-                day: 'numeric', // "26"
-                hour: 'numeric', // "9"
-                minute: '2-digit', // "00"
-                hour12: true // "AM/PM" format
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
             });
 
             const eventElement = document.createElement('div');
@@ -128,20 +125,62 @@ function displayResults(data, append = false) {
             </div>
             <div class="button-container">
                 <a href="${event.url}" target="_blank" class="search-button-results">Buy Tickets</a>
-                <a href="#" class="search-button-results">Pin Concert</a>
+                <button class="search-button-results pin-concert">Pin Concert</button>
                 <a href="#" class="search-button-results">Directions</a>
             </div>
         `;
 
-
             resultsContainer.appendChild(eventElement);
         });
+
+        // Set up event listeners for Pin Concert buttons
+        setupPinButtons();
     } else {
         resultsContainer.innerHTML = '<p>No results found for your search.</p>';
     }
 }
 
+function setupPinButtons() {
+    document.querySelectorAll('.pin-concert').forEach(button => {
+        button.addEventListener('click', function() {
+            const concertData = extractConcertData(this.closest('.event'));
+            saveConcert(concertData, this);
+        });
+    });
+}
 
+
+function extractConcertData(concertElement) {
+    return {
+        title: concertElement.querySelector('h4').innerText,
+        venueName: concertElement.querySelector('.event-details p').innerText.split(", ")[0],
+        venueCity: concertElement.querySelector('.event-details p').innerText.split(", ")[1],
+        dateTime: concertElement.querySelector('.event-details p').innerText.split(" - ")[1],
+        performers: concertElement.querySelector('.event-details p:nth-of-type(2)').innerText.substring(11), // Assuming performers text is like "Performers: name, name"
+        imageUrl: concertElement.querySelector('img').src,
+        eventUrl: concertElement.querySelector('.search-button-results').href
+    };
+}
+
+function saveConcert(concertData, button) {
+    fetch('/api/save-concert', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(concertData),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to save the concert.');
+        }
+        button.innerText = 'Saved';
+        button.disabled = true;
+    })
+    .catch(error => {
+        console.error('Failed to save concert:', error);
+    });
+}
 
 async function logout() {
     try {

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BYcU3Js+WqsLeWUQUSqlZPSvm491HaxdzjEvVALbYxI=",
+  "Hash": "1UFFaxwVpZ/NVcNbs8lObJafEj/49yVvhMFjyhBc/GE=",
   "Source": "ConcertFinder",
   "BasePath": "_content/ConcertFinder",
   "Mode": "Default",
@@ -8,19 +8,19 @@
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
-      "Name": "ConcertFinder\\wwwroot",
+      "Name": "ConcertFinder/wwwroot",
       "Source": "ConcertFinder",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\css\\style.css",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/css/style.css",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "css/style.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\style.css"
+      "OriginalItemSpec": "wwwroot/css/style.css"
     },
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\js\\account-settings.js",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/account-settings.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "js/account-settings.js",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\account-settings.js"
+      "OriginalItemSpec": "wwwroot/js/account-settings.js"
     },
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\js\\home.js",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/home.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "js/home.js",
       "AssetKind": "All",
@@ -71,13 +71,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\home.js"
+      "OriginalItemSpec": "wwwroot/js/home.js"
     },
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\js\\login.js",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/login.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "js/login.js",
       "AssetKind": "All",
@@ -90,13 +90,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\login.js"
+      "OriginalItemSpec": "wwwroot/js/login.js"
     },
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\js\\register.js",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/register.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "js/register.js",
       "AssetKind": "All",
@@ -109,13 +109,32 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\register.js"
+      "OriginalItemSpec": "wwwroot/js/register.js"
     },
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\view\\account-settings.html",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/SavedConcerts.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "BasePath": "_content/ConcertFinder",
+      "RelativePath": "js/SavedConcerts.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/SavedConcerts.js"
+    },
+    {
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/account-settings.html",
+      "SourceId": "ConcertFinder",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "view/account-settings.html",
       "AssetKind": "All",
@@ -128,13 +147,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\view\\account-settings.html"
+      "OriginalItemSpec": "wwwroot/view/account-settings.html"
     },
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\view\\home.html",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/home.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "view/home.html",
       "AssetKind": "All",
@@ -147,13 +166,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\view\\home.html"
+      "OriginalItemSpec": "wwwroot/view/home.html"
     },
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\view\\login.html",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/login.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "view/login.html",
       "AssetKind": "All",
@@ -166,13 +185,32 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\view\\login.html"
+      "OriginalItemSpec": "wwwroot/view/login.html"
     },
     {
-      "Identity": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\view\\register.html",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/pins.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\siddh\\OneDrive - UMGC\\SPRING 2024\\Capstone\\UMGC-Capstone\\ConcertFinder\\wwwroot\\",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "BasePath": "_content/ConcertFinder",
+      "RelativePath": "view/pins.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/view/pins.html"
+    },
+    {
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/register.html",
+      "SourceId": "ConcertFinder",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
       "RelativePath": "view/register.html",
       "AssetKind": "All",
@@ -185,7 +223,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\view\\register.html"
+      "OriginalItemSpec": "wwwroot/view/register.html"
     }
   ]
 }
