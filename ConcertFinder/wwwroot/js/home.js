@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
-
-
 document.getElementById('searchButton').addEventListener('click', function () {
     const artistName = document.getElementById('searchBar').value.trim();
     if (artistName) {
@@ -72,10 +70,10 @@ function fetchRecommendations() {
 
 function displayRecommendations(data) {
     const resultsContainer = document.getElementById('recommendationsList');
-    resultsContainer.innerHTML = ''; // Clear previous content
+    resultsContainer.innerHTML = ''; 
 
     if (data && data.performers && data.performers.length > 0) {
-        data.performers.slice(0, 6).forEach(performer => { // Only take the first 6 performers
+        data.performers.slice(0, 6).forEach(performer => { 
             const performerDiv = document.createElement('div');
             performerDiv.className = 'performer';
             performerDiv.innerHTML = `
@@ -94,9 +92,6 @@ function displayRecommendations(data) {
     }
 }
 
-
-
-
 function displayResults(data, append = false) {
     const resultsContainer = document.getElementById('searchResults');
     if (!append) {
@@ -107,12 +102,12 @@ function displayResults(data, append = false) {
         data.events.forEach(event => {
             const dateTime = new Date(event.datetime_local);
             const formattedDate = dateTime.toLocaleString('en-US', {
-                year: 'numeric', // "2024"
-                month: 'long', // "April"
-                day: 'numeric', // "26"
-                hour: 'numeric', // "9"
-                minute: '2-digit', // "00"
-                hour12: true // "AM/PM" format
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
             });
 
             const eventElement = document.createElement('div');
@@ -128,20 +123,83 @@ function displayResults(data, append = false) {
             </div>
             <div class="button-container">
                 <a href="${event.url}" target="_blank" class="search-button-results">Buy Tickets</a>
-                <a href="#" class="search-button-results">Pin Concert</a>
-                <a href="#" class="search-button-results">Directions</a>
+                <button class="search-button-results pin-concert">Pin Concert</button>
             </div>
         `;
 
-
+            // Appending the event element to the results container
             resultsContainer.appendChild(eventElement);
         });
+
+        // Set up event listeners for Pin Concert buttons
+        setupPinButtons();
     } else {
         resultsContainer.innerHTML = '<p>No results found for your search.</p>';
     }
 }
 
+function setupPinButtons() {
+    document.querySelectorAll('.pin-concert').forEach(button => {
+        button.addEventListener('click', function() {
+            const concertData = extractConcertData(this.closest('.event'));
+            saveConcert(concertData, this);
+            this.textContent = 'Pinned'; // Change button text to 'Pinned'
+            this.disabled = true; // Disable the button to prevent multiple pins
+        });
+    });
+}
 
+function extractConcertData(concertElement) {
+    const dateTimeText = concertElement.querySelector('.event-details p').innerText.split(" - ")[1];
+    const dateParts = dateTimeText.replace('at ', '');
+
+    const eventDate = new Date(dateParts);
+    if (isNaN(eventDate.getTime())) {
+        console.error('Invalid date format:', dateTimeText);
+        alert("There was an error processing the date for this event. Please try again.");
+        return null;
+    }
+
+    const isoDateTime = eventDate.toISOString();
+
+    // Ensure performers is a comma-separated string
+    const performersList = concertElement.querySelector('.event-details p:nth-of-type(2)').innerText.substring(11);
+    const performers = Array.isArray(performersList) ? performersList.join(', ') : performersList;
+
+    return {
+        title: concertElement.querySelector('h4').innerText.trim(),
+        venueName: concertElement.querySelector('.event-details p').innerText.split(", ")[0].trim(),
+        venueCity: concertElement.querySelector('.event-details p').innerText.split(" - ")[0].split(", ")[1].trim(),
+        dateTime: isoDateTime,
+        performers: performers.trim(),
+        imageUrl: concertElement.querySelector('img').src.trim(),
+        eventUrl: concertElement.querySelector('a.search-button-results').href.trim()
+    };
+}
+
+function saveConcert(concertData) {
+    console.log('Sending concert data:', JSON.stringify(concertData));
+
+    fetch('/api/save-concert', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(concertData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to save the concert.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Concert saved:', data);
+    })
+    .catch(error => {
+        console.error('Failed to save concert:', error);
+    });
+}
 
 async function logout() {
     try {

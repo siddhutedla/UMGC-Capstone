@@ -22,14 +22,13 @@ namespace ConcertFinder.Controllers
             var username = HttpContext.Session.GetString("Username");
             if (!string.IsNullOrEmpty(username))
             {
-                return Ok(new { username = username });  
+                return Ok(new { username = username });
             }
             else
             {
                 return Unauthorized("User is not logged in.");
             }
         }
-
 
         [HttpGet("/")]
         public async Task<IActionResult> Index()
@@ -62,8 +61,15 @@ namespace ConcertFinder.Controllers
             return PhysicalFile(filePath, "text/html");
         }
 
+        [HttpGet("/saved")]
+        public IActionResult Pins()
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "saved.html");
+            return PhysicalFile(filePath, "text/html");
+        }
 
-        [HttpGet("/account-settings")]
+
+        [HttpGet("/account")]
         public async Task<IActionResult> AccountSettings()
         {
             if (HttpContext.Session.GetString("UserId") == null)
@@ -72,7 +78,7 @@ namespace ConcertFinder.Controllers
             }
             else
             {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "account-settings.html");
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "account.html");
                 return PhysicalFile(filePath, "text/html");
             }
         }
