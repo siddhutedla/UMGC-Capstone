@@ -1,18 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Check if the user is logged in when the DOM is fully loaded
-    fetch('/api/isLoggedIn')
+    const isLoggedIn = fetch('/api/isLoggedIn')
         .then(response => response.json())
         .then(data => {
-            if (data.isLoggedIn) {
-                // Load saved concerts for the logged-in user
-                loadSavedConcerts();
-            } else {
+            if (!data.isLoggedIn) {
                 // Redirect to the login page if not logged in
                 window.location.href = '/login';
+                return false;
             }
-        }).catch(error => {
+            return true;
+        })
+        .catch(error => {
             console.error('Error checking login status:', error);
+            return false;
         });
+
+    if (!isLoggedIn) return;
+
+    // Load saved concerts for the logged-in user
+    loadSavedConcerts();
 });
 
 function loadSavedConcerts() {
@@ -23,7 +29,9 @@ function loadSavedConcerts() {
             }
             return response.json();
         })
-        .then(displaySavedConcerts)
+        .then(savedConcerts => {
+            displaySavedConcerts(savedConcerts);
+        })
         .catch(error => {
             console.error('Failed to load saved concerts:', error);
         });
@@ -31,6 +39,11 @@ function loadSavedConcerts() {
 
 function displaySavedConcerts(savedConcerts) {
     const resultsContainer = document.getElementById('savedConcertsContainer');
+    if (!resultsContainer) {
+        console.error('Failed to find the results container for saved concerts');
+        return;
+    }
+
     resultsContainer.innerHTML = ''; // Clear previous content
 
     if (savedConcerts && savedConcerts.length > 0) {
@@ -80,3 +93,16 @@ function removeSavedConcert(concertId, buttonElement) {
             console.error('Failed to remove concert:', error);
         });
 }
+
+// Ensure logout function is correctly defined
+function logout() {
+    fetch('/logout', { method: 'POST' })
+        .then(response => {
+            if (!response.ok) throw new Error('Logout failed.');
+            window.location.href = '/';
+        })
+        .catch(error => {
+            console.error('Error logging out:', error);
+        });
+}
+

@@ -1,81 +1,79 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using ConcertFinder.Data;
 using ConcertFinder.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Text.Json;
+using System.Text;
 
 namespace ConcertFinder.Controllers
 {
     public class SavedConcertController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<SavedConcertController> _logger;
 
-        public SavedConcertController(AppDbContext context)
+        public SavedConcertController(AppDbContext context, ILogger<SavedConcertController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        [HttpPost("/api/save-concert")]
-        public async Task<IActionResult> SaveConcert([FromBody] SavedConcert savedConcert)
+[HttpPost("/api/save-concert")]
+        public async Task<IActionResult> SaveConcert()
         {
-            var userId = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userId))
+            using (var reader = new StreamReader(Request.Body))
             {
-                return Unauthorized("User must be logged in to save concerts.");
+                var body = await reader.ReadToEndAsync();
+                _logger.LogInformation("Received body: {RequestBody}", body);
+
+                var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
+
+                // Ensure the stream is at the beginning before deserializing
+                memoryStream.Position = 0;
+                
+                var savedConcert = await JsonSerializer.DeserializeAsync<SavedConcert>(memoryStream);
+                if (savedConcert == null)
+                {
+                    _logger.LogError("Deserialization failed; received null SavedConcert object");
+                    return BadRequest("Invalid concert data.");
+                }
+
+                // Log the deserialized concert to confirm data is correct
+                _logger.LogInformation("Deserialized concert data: {SavedConcert}", JsonSerializer.Serialize(savedConcert));
+
+                var userId = HttpContext.Session.GetString("UserId");
+                if (string.IsNullOrEmpty(userId))
+                {
+                    _logger.LogWarning("Unauthorized attempt to save a concert");
+                    return Unauthorized("User must be logged in to save concerts.");
+                }
+
+                var exists = await _context.SavedConcerts.AnyAsync(c => c.EventUrl == savedConcert.EventUrl && c.UserId == userId);
+                if (exists)
+                {
+                    _logger.LogInformation("Attempt to save duplicate concert: {EventUrl}", savedConcert.EventUrl);
+                    return BadRequest("Concert is already saved.");
+                }
+
+                savedConcert.UserId = userId;
+                try
+                {
+                    _context.SavedConcerts.Add(savedConcert);
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Concert saved successfully: {EventUrl}", savedConcert.EventUrl);
+                    return Ok(new { Message = "Concert saved successfully" });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error saving concert");
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { Error = "An error occurred while saving the concert." });
+                }
             }
-            savedConcert.UserId = userId;
-
-            // Check if the concert is already saved to prevent duplicates
-            var exists = await _context.SavedConcerts.AnyAsync(c => c.EventUrl == savedConcert.EventUrl && c.UserId == userId);
-            if (exists)
-            {
-                return BadRequest("Concert is already saved.");
-            }
-
-            _context.SavedConcerts.Add(savedConcert);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Concert saved successfully" });
-        }
-
-        [HttpGet("/api/saved-concerts")]
-        public async Task<IActionResult> GetSavedConcerts()
-        {
-            var userId = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User must be logged in to view saved concerts.");
-            }
-
-            var savedConcerts = await _context.SavedConcerts
-                                              .Where(sc => sc.UserId == userId)
-                                              .ToListAsync();
-
-            return Ok(savedConcerts);
-        }
-
-        [HttpDelete("/api/remove-saved-concert/{id}")]
-        public async Task<IActionResult> RemoveSavedConcert(int id)
-        {
-            var userId = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User must be logged in to remove concerts.");
-            }
-
-            var savedConcert = await _context.SavedConcerts
-                                             .FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
-
-            if (savedConcert == null)
-            {
-                return NotFound("Concert not found.");
-            }
-
-            _context.SavedConcerts.Remove(savedConcert);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Concert removed successfully" });
         }
     }
 }

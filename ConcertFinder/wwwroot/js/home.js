@@ -151,36 +151,61 @@ function setupPinButtons() {
 
 
 function extractConcertData(concertElement) {
+    const dateTimeText = concertElement.querySelector('.event-details p').innerText.split(" - ")[1];
+    const dateParts = dateTimeText.replace('at ', '');
+
+    const eventDate = new Date(dateParts);
+    if (isNaN(eventDate.getTime())) {
+        console.error('Invalid date format:', dateTimeText);
+        alert("There was an error processing the date for this event. Please try again.");
+        return null;
+    }
+
+    const isoDateTime = eventDate.toISOString();
+
+    // Ensure performers is a comma-separated string
+    const performersList = concertElement.querySelector('.event-details p:nth-of-type(2)').innerText.substring(11);
+    const performers = Array.isArray(performersList) ? performersList.join(', ') : performersList;
+
     return {
-        title: concertElement.querySelector('h4').innerText,
-        venueName: concertElement.querySelector('.event-details p').innerText.split(", ")[0],
-        venueCity: concertElement.querySelector('.event-details p').innerText.split(", ")[1],
-        dateTime: concertElement.querySelector('.event-details p').innerText.split(" - ")[1],
-        performers: concertElement.querySelector('.event-details p:nth-of-type(2)').innerText.substring(11), // Assuming performers text is like "Performers: name, name"
-        imageUrl: concertElement.querySelector('img').src,
-        eventUrl: concertElement.querySelector('.search-button-results').href
+        title: concertElement.querySelector('h4').innerText.trim(),
+        venueName: concertElement.querySelector('.event-details p').innerText.split(", ")[0].trim(),
+        venueCity: concertElement.querySelector('.event-details p').innerText.split(" - ")[0].split(", ")[1].trim(),
+        dateTime: isoDateTime,
+        performers: performers.trim(),
+        imageUrl: concertElement.querySelector('img').src.trim(),
+        eventUrl: concertElement.querySelector('a.search-button-results').href.trim()
     };
 }
 
-function saveConcert(concertData, button) {
+
+
+function saveConcert(concertData) {
+    console.log('Sending concert data:', JSON.stringify(concertData));
+
     fetch('/api/save-concert', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(concertData),
+        body: JSON.stringify(concertData)
     })
     .then(response => {
         if (!response.ok) {
             throw new Error('Failed to save the concert.');
         }
-        button.innerText = 'Saved';
-        button.disabled = true;
+        return response.json();
+    })
+    .then(data => {
+        console.log('Concert saved:', data);
     })
     .catch(error => {
         console.error('Failed to save concert:', error);
     });
 }
+
+
+
 
 async function logout() {
     try {
