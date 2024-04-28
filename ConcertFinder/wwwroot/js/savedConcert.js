@@ -1,6 +1,3 @@
-// Too bugs with this code!
-// Fix 99 bugs on the wall 99 bugs take one down pass it around over 9000 bugs on the wall.
-
 document.addEventListener('DOMContentLoaded', function () {
     checkLoginAndLoadConcerts();
 });
@@ -41,11 +38,11 @@ function displaySavedConcerts(savedConcerts) {
         console.error('No container for saved concerts found');
         return;
     }
-    resultsContainer.innerHTML = ''; 
+    resultsContainer.innerHTML = '';
     if (savedConcerts.length > 0) {
         savedConcerts.forEach(concert => {
             const concertElement = createConcertElement(concert);
-            resultsContainer.appendChild(concertElement); 
+            resultsContainer.appendChild(concertElement);
         });
     } else {
         resultsContainer.innerHTML = '<p>You have no saved concerts.</p>';
@@ -53,56 +50,51 @@ function displaySavedConcerts(savedConcerts) {
 }
 
 function createConcertElement(concert) {
-    const concertElement = document.createElement('div');
-    concertElement.className = 'event';  // This class should match your CSS for event cards.
+    const eventElement = document.createElement('div');
+    eventElement.className = 'savedevents';
+    eventElement.setAttribute('data-id', concert.id);
 
     const formattedDate = new Date(concert.dateTime).toLocaleString('en-US', {
         year: 'numeric', month: 'long', day: 'numeric',
         hour: 'numeric', minute: '2-digit', hour12: true
     });
 
-    const performersList = Array.isArray(concert.performers) ? concert.performers.join(', ') : concert.performers;
-
-    // Image setup
     const img = document.createElement('img');
     img.src = concert.imageUrl;
     img.alt = concert.title;
-    img.className = "event-image";  // This should style the image as per your CSS.
+    img.className = "savedevents-img";
 
-    // Details section
     const detailsDiv = document.createElement('div');
-    detailsDiv.className = "event-details";  // This should style the details div as per your CSS.
+    detailsDiv.className = "savedevents-details";
     detailsDiv.innerHTML = `
         <h4>${concert.title}</h4>
-        <p>${concert.venueName}, ${concert.venueCity} - ${formattedDate}</p>
-        <p>Performers: ${performersList}</p>
+        <p>${concert.venueName}, ${concert.venueCity}</p>
+        <p>${formattedDate}</p>
+        <p>Performers: ${concert.performers}</p>
     `;
 
-    // Buttons setup
     const buttonsDiv = document.createElement('div');
-    buttonsDiv.className = "button-container";  // This should style the container for buttons.
-    const ticketLink = document.createElement('a');
-    ticketLink.href = concert.eventUrl;
-    ticketLink.target = "_blank";
-    ticketLink.className = "btn buy-tickets";  // This applies styles for the buy tickets button.
-    ticketLink.textContent = "Buy Tickets";
+    buttonsDiv.className = "savedevents-button-container";
+
+    const buyButton = document.createElement('a');
+    buyButton.className = 'btn savedevents-buy-tickets';
+    buyButton.href = concert.eventUrl;
+    buyButton.target = "_blank";
+    buyButton.textContent = 'Buy Tickets';
 
     const removeButton = document.createElement('button');
-    removeButton.className = "btn remove-concert";  // This applies styles for the remove button.
-    removeButton.textContent = "Remove";
+    removeButton.className = 'btn savedevents-buy-tickets';
+    removeButton.textContent = 'Remove';
     removeButton.onclick = () => removeSavedConcert(concert.id, removeButton);
 
-    buttonsDiv.appendChild(ticketLink);
+    buttonsDiv.appendChild(buyButton);
     buttonsDiv.appendChild(removeButton);
+    eventElement.appendChild(img);
+    eventElement.appendChild(detailsDiv);
+    eventElement.appendChild(buttonsDiv);
 
-    // Appending all parts to the main concert element
-    concertElement.appendChild(img);
-    concertElement.appendChild(detailsDiv);
-    concertElement.appendChild(buttonsDiv);
-
-    return concertElement;
+    return eventElement;
 }
-
 
 function removeSavedConcert(concertId, buttonElement) {
     fetch(`/api/remove-saved-concert/${concertId}`, { method: 'DELETE' })
@@ -110,22 +102,26 @@ function removeSavedConcert(concertId, buttonElement) {
             if (!response.ok) {
                 throw new Error('Failed to remove the saved concert.');
             }
-            // Make sure buttonElement is the button and it has an ancestor with the class .concert
-            const concertElement = buttonElement.closest('.concert');
+            const concertElement = document.querySelector(`.savedevents[data-id="${concertId}"]`);
             if (concertElement) {
                 concertElement.remove();
                 console.log('Concert removed successfully.');
+                updateConcertListDisplay();
             } else {
-                // If there is no ancestor, log the error
-                console.error('No .concert element found for this button');
+                console.error('Concert element not found for id:', concertId);
             }
         })
         .catch(error => {
             console.error('Failed to remove concert:', error);
-            // Handle error for user feedback here
         });
 }
 
+function updateConcertListDisplay() {
+    const resultsContainer = document.getElementById('savedConcertsContainer');
+    if (resultsContainer.children.length === 0) {
+        resultsContainer.innerHTML = '<p>You have no saved concerts.</p>';
+    }
+}
 
 function displayError(message) {
     const resultsContainer = document.getElementById('savedConcertsContainer');

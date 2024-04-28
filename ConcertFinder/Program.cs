@@ -37,7 +37,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/error");
 }
 
-// Get Username
+// Getting Username
 
 app.UseSession(); 
 app.UseStaticFiles(); 

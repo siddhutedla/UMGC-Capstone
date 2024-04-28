@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
-
-
 document.getElementById('searchButton').addEventListener('click', function () {
     const artistName = document.getElementById('searchBar').value.trim();
     if (artistName) {
@@ -72,10 +70,10 @@ function fetchRecommendations() {
 
 function displayRecommendations(data) {
     const resultsContainer = document.getElementById('recommendationsList');
-    resultsContainer.innerHTML = ''; // Clear previous content
+    resultsContainer.innerHTML = ''; 
 
     if (data && data.performers && data.performers.length > 0) {
-        data.performers.slice(0, 6).forEach(performer => { // Only take the first 6 performers
+        data.performers.slice(0, 6).forEach(performer => { 
             const performerDiv = document.createElement('div');
             performerDiv.className = 'performer';
             performerDiv.innerHTML = `
@@ -126,10 +124,10 @@ function displayResults(data, append = false) {
             <div class="button-container">
                 <a href="${event.url}" target="_blank" class="search-button-results">Buy Tickets</a>
                 <button class="search-button-results pin-concert">Pin Concert</button>
-                <a href="#" class="search-button-results">Directions</a>
             </div>
         `;
 
+            // Appending the event element to the results container
             resultsContainer.appendChild(eventElement);
         });
 
@@ -145,10 +143,11 @@ function setupPinButtons() {
         button.addEventListener('click', function() {
             const concertData = extractConcertData(this.closest('.event'));
             saveConcert(concertData, this);
+            this.textContent = 'Pinned'; // Change button text to 'Pinned'
+            this.disabled = true; // Disable the button to prevent multiple pins
         });
     });
 }
-
 
 function extractConcertData(concertElement) {
     const dateTimeText = concertElement.querySelector('.event-details p').innerText.split(" - ")[1];
@@ -178,8 +177,6 @@ function extractConcertData(concertElement) {
     };
 }
 
-
-
 function saveConcert(concertData) {
     console.log('Sending concert data:', JSON.stringify(concertData));
 
@@ -203,9 +200,6 @@ function saveConcert(concertData) {
         console.error('Failed to save concert:', error);
     });
 }
-
-
-
 
 async function logout() {
     try {

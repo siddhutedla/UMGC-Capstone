@@ -236,6 +236,7 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
     background-color: #007BFF;
     color: white;
     padding: 10px 10px; 
+    font-size: 16px;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -301,50 +302,52 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
     text-decoration: none;
 }
 
-.event {
+.savedevents {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.savedevents-img {
+    width: 100px; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.savedevents-details {
+    border-left: 2px solid #eee; 
+    padding-left: 20px; 
+}
+
+.savedevents-button-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: white;
+    justify-content: space-between;
+    align-items: flex-end;
 }
 
-.event-image {
-    max-width: 100%;
-    height: auto;
-    border-bottom: 1px solid #eee;
-}
-
-.event-details {
-    padding: 10px;
-}
-
-.button-container {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-}
-
-.btn {
-    padding: 10px;
-    border-radius: 5px;
+.btn.savedevents-buy-tickets, .btn.savedevents-remove {
+    font-size: 16px; 
+    display: inline-block;
     background-color: #007BFF;
     color: white;
+    padding: 10px 10px; 
     text-decoration: none;
-    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px; 
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
-.btn:hover {
+.btn.savedevents-buy-tickets:hover, .btn.savedevents-remove:hover {
     background-color: #0056b3;
 }
 
-.buy-tickets {
-    margin-right: 5px;
-}
-
-.remove-concert {
-    background-color: red;
-}

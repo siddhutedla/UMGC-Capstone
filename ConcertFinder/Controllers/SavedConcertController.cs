@@ -33,7 +33,7 @@ namespace ConcertFinder.Controllers
                 _logger.LogInformation("Received body: {RequestBody}", body);
 
                 var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
-                memoryStream.Position = 0;  // Ensure the stream is at the beginning before deserializing
+                memoryStream.Position = 0;  
                 
                 var savedConcert = await JsonSerializer.DeserializeAsync<SavedConcert>(memoryStream);
                 if (savedConcert == null)
