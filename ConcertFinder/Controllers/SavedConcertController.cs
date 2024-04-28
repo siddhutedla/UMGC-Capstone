@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Text.Json;
 using System.Text;
+using System.Linq;
 
 namespace ConcertFinder.Controllers
 {
@@ -23,7 +24,7 @@ namespace ConcertFinder.Controllers
             _logger = logger;
         }
 
-[HttpPost("/api/save-concert")]
+        [HttpPost("/api/save-concert")]
         public async Task<IActionResult> SaveConcert()
         {
             using (var reader = new StreamReader(Request.Body))
@@ -32,9 +33,7 @@ namespace ConcertFinder.Controllers
                 _logger.LogInformation("Received body: {RequestBody}", body);
 
                 var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
-
-                // Ensure the stream is at the beginning before deserializing
-                memoryStream.Position = 0;
+                memoryStream.Position = 0;  // Ensure the stream is at the beginning before deserializing
                 
                 var savedConcert = await JsonSerializer.DeserializeAsync<SavedConcert>(memoryStream);
                 if (savedConcert == null)
@@ -42,9 +41,6 @@ namespace ConcertFinder.Controllers
                     _logger.LogError("Deserialization failed; received null SavedConcert object");
                     return BadRequest("Invalid concert data.");
                 }
-
-                // Log the deserialized concert to confirm data is correct
-                _logger.LogInformation("Deserialized concert data: {SavedConcert}", JsonSerializer.Serialize(savedConcert));
 
                 var userId = HttpContext.Session.GetString("UserId");
                 if (string.IsNullOrEmpty(userId))
@@ -75,5 +71,37 @@ namespace ConcertFinder.Controllers
                 }
             }
         }
+
+        // GET: api/saved-concerts
+        [HttpGet("/api/saved-concerts")]
+        public async Task<IActionResult> GetSavedConcerts()
+        {
+            var userId = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User must be logged in to view saved concerts.");
+            }
+
+            var concerts = await _context.SavedConcerts
+                                         .Where(c => c.UserId == userId)
+                                         .ToListAsync();
+
+            return Ok(concerts);
+        }
+        [HttpDelete("/api/remove-saved-concert/{id}")]
+        public async Task<IActionResult> RemoveSavedConcert(int id)
+        {
+            var savedConcert = await _context.SavedConcerts.FindAsync(id);
+            if (savedConcert == null)
+            {
+                return NotFound();
+            }
+
+            _context.SavedConcerts.Remove(savedConcert);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
+

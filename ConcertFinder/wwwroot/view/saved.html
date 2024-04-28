@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Concert Finder</title>
+    <title>Saved Concerts - Concert Finder</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
 <body>
     <header>
         <div class="header-content">
@@ -16,21 +14,19 @@
         </div>
         <nav class="navbar">
             <button onclick="location.href='/'" class="btn">Home</button>
-            <button onclick="location.href='/account-settings'" class="btn">Account</button>
-            <button onclick="location.href='/pins'" class="btn">Pins</button>
+            <button onclick="location.href='/saved'" class="btn">Pins</button>
+            <button onclick="location.href='/account'" class="btn">Account</button>
             <button onclick="logout()" class="btn">Logout</button>
         </nav>
     </header>
     
-
     <section id="pinsContainer">
         <h3>Saved Concerts</h3>
-        <div id="savedConcertsContainer"></div> 
+        <div id="savedConcertsContainer"></div>
     </section>
     
-
+    <script src="/js/savedConcert.js"></script>
     <script src="/js/home.js"></script>
-    <script src="/js/SavedConcert.js"></script>
-</body>
 
+</body>
 </html>

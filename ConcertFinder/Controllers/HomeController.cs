@@ -62,15 +62,15 @@ namespace ConcertFinder.Controllers
             return PhysicalFile(filePath, "text/html");
         }
 
-        [HttpGet("/pins")]
+        [HttpGet("/saved")]
         public IActionResult Pins()
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "pins.html");
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "saved.html");
             return PhysicalFile(filePath, "text/html");
         }
 
 
-        [HttpGet("/account-settings")]
+        [HttpGet("/account")]
         public async Task<IActionResult> AccountSettings()
         {
             if (HttpContext.Session.GetString("UserId") == null)
@@ -79,7 +79,7 @@ namespace ConcertFinder.Controllers
             }
             else
             {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "account-settings.html");
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "account.html");
                 return PhysicalFile(filePath, "text/html");
             }
         }

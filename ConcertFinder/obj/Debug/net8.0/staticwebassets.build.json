@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "1UFFaxwVpZ/NVcNbs8lObJafEj/49yVvhMFjyhBc/GE=",
+  "Hash": "xfvNXLZnaGUUx9HDEz8PWqArJgqL3uCS27iGQLGJV3E=",
   "Source": "ConcertFinder",
   "BasePath": "_content/ConcertFinder",
   "Mode": "Default",
@@ -36,12 +36,12 @@
       "OriginalItemSpec": "wwwroot/css/style.css"
     },
     {
-      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/account-settings.js",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/accountSettings.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
-      "RelativePath": "js/account-settings.js",
+      "RelativePath": "js/accountSettings.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -52,7 +52,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/js/account-settings.js"
+      "OriginalItemSpec": "wwwroot/js/accountSettings.js"
     },
     {
       "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/home.js",
@@ -112,12 +112,12 @@
       "OriginalItemSpec": "wwwroot/js/register.js"
     },
     {
-      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/SavedConcerts.js",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/savedConcert.js",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
-      "RelativePath": "js/SavedConcerts.js",
+      "RelativePath": "js/savedConcert.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -128,15 +128,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/js/SavedConcerts.js"
+      "OriginalItemSpec": "wwwroot/js/savedConcert.js"
     },
     {
-      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/account-settings.html",
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/account.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
       "BasePath": "_content/ConcertFinder",
-      "RelativePath": "view/account-settings.html",
+      "RelativePath": "view/account.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -147,7 +147,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/view/account-settings.html"
+      "OriginalItemSpec": "wwwroot/view/account.html"
     },
     {
       "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/home.html",
@@ -188,25 +188,6 @@
       "OriginalItemSpec": "wwwroot/view/login.html"
     },
     {
-      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/pins.html",
-      "SourceId": "ConcertFinder",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
-      "BasePath": "_content/ConcertFinder",
-      "RelativePath": "view/pins.html",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/view/pins.html"
-    },
-    {
       "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/register.html",
       "SourceId": "ConcertFinder",
       "SourceType": "Discovered",
@@ -224,6 +205,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/view/register.html"
+    },
+    {
+      "Identity": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/saved.html",
+      "SourceId": "ConcertFinder",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/",
+      "BasePath": "_content/ConcertFinder",
+      "RelativePath": "view/saved.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/view/saved.html"
     }
   ]
 }

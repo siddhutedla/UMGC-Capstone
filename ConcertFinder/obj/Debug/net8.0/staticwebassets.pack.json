@@ -5,12 +5,8 @@
       "PackagePath": "staticwebassets/css/style.css"
     },
     {
-      "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/SavedConcerts.js",
-      "PackagePath": "staticwebassets/js/SavedConcerts.js"
-    },
-    {
-      "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/account-settings.js",
-      "PackagePath": "staticwebassets/js/account-settings.js"
+      "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/accountSettings.js",
+      "PackagePath": "staticwebassets/js/accountSettings.js"
     },
     {
       "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/home.js",
@@ -25,8 +21,12 @@
       "PackagePath": "staticwebassets/js/register.js"
     },
     {
-      "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/account-settings.html",
-      "PackagePath": "staticwebassets/view/account-settings.html"
+      "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/js/savedConcert.js",
+      "PackagePath": "staticwebassets/js/savedConcert.js"
+    },
+    {
+      "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/account.html",
+      "PackagePath": "staticwebassets/view/account.html"
     },
     {
       "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/home.html",
@@ -37,12 +37,12 @@
       "PackagePath": "staticwebassets/view/login.html"
     },
     {
-      "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/pins.html",
-      "PackagePath": "staticwebassets/view/pins.html"
-    },
-    {
       "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/register.html",
       "PackagePath": "staticwebassets/view/register.html"
+    },
+    {
+      "Id": "/Users/tylerkimball/CSMC495/UMGC-Capstone/ConcertFinder/wwwroot/view/saved.html",
+      "PackagePath": "staticwebassets/view/saved.html"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.ConcertFinder.Microsoft.AspNetCore.StaticWebAssets.props",
