@@ -70,10 +70,10 @@ function fetchRecommendations() {
 
 function displayRecommendations(data) {
     const resultsContainer = document.getElementById('recommendationsList');
-    resultsContainer.innerHTML = ''; 
+    resultsContainer.innerHTML = '';
 
     if (data && data.performers && data.performers.length > 0) {
-        data.performers.slice(0, 6).forEach(performer => { 
+        data.performers.slice(0, 6).forEach(performer => {
             const performerDiv = document.createElement('div');
             performerDiv.className = 'performer';
             performerDiv.innerHTML = `
@@ -82,7 +82,7 @@ function displayRecommendations(data) {
                 </div>
                 <div class="performer-details">
                     <h4>${performer.name}</h4>
-                    <p><a href="${performer.url}" target="_blank">More Info</a></p>
+                    <a href="${performer.url}" target="_blank" class="btn">More Info</a>
                 </div>
             `;
             resultsContainer.appendChild(performerDiv);
@@ -91,6 +91,7 @@ function displayRecommendations(data) {
         resultsContainer.innerHTML = '<p>No recommendations found.</p>';
     }
 }
+
 
 function displayResults(data, append = false) {
     const resultsContainer = document.getElementById('searchResults');

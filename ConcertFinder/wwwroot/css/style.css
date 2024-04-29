@@ -249,42 +249,62 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
     background-color: #0056b3;
 }
 
-.recommendation-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#recommendations {
+    margin-top: 20px; /* Space above the section */
+    background-color: #fff; /* Background color */
+    padding: 20px; /* Padding inside the section */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    width: 100%; /* Full viewport width */
+    max-width: none; /* Resets any max-width set elsewhere */
+    margin-left: 0; /* Resets any left margin */
+    margin-right: 0; /* Resets any right margin */
+    border-radius: 0; /* Resets border-radius if you want it to stretch without rounded corners */
 }
 
-.recommendations-section h3 {
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
+#recommendations h3 {
+    text-align: center; /* Center the heading text */
+    padding: 0; /* Reset padding for the heading if needed */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+#recommendationsList {
+    display: flex; /* Aligns items in a row */
+    gap: 20px; /* Spacing between items */
+    overflow-x: auto; /* Enables horizontal scrolling */
+    padding: 0 20px; /* Padding on the sides inside the list for aesthetics */
+    align-items: stretch; /* Stretches items to fill the container in the cross-axis */
+    justify-content: center; /* Centers items in the container */
 }
 
 
 .performer {
+    flex: 0 0 auto;
+    margin-bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 200px;
+    background-color: white;
+}
+
+.performer:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .performer-image img {
-    width: 100%; 
-    height: 200px; 
-    object-fit: cover; 
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .performer-details {
     padding: 10px;
-    text-align: center; 
+    text-align: center;
 }
 
 .performer-details h4 {
@@ -300,6 +320,17 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
 .performer-details a {
     color: #007BFF;
     text-decoration: none;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.performer-details a:hover {
+    background-color: #0056b3;
 }
 
 .savedevents {
