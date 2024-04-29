@@ -70,28 +70,35 @@ function fetchRecommendations() {
 
 function displayRecommendations(data) {
     const resultsContainer = document.getElementById('recommendationsList');
-    resultsContainer.innerHTML = '';
+    resultsContainer.innerHTML = ''; 
 
     if (data && data.performers && data.performers.length > 0) {
-        data.performers.slice(0, 6).forEach(performer => {
+        data.performers.slice(0, 6).forEach(performer => { 
             const performerDiv = document.createElement('div');
             performerDiv.className = 'performer';
+            const image = performer.images.huge || 'placeholder-image-url.jpg';
+            const name = performer.name;
+
             performerDiv.innerHTML = `
                 <div class="performer-image">
-                    <img src="${performer.images.huge || 'placeholder-image-url.jpg'}" alt="${performer.name}">
+                    <img src="${image}" alt="${name}">
                 </div>
                 <div class="performer-details">
-                    <h4>${performer.name}</h4>
-                    <a href="${performer.url}" target="_blank" class="btn">More Info</a>
+                    <h4>${name}</h4>
+                    <a href="#" class="btn info-button">More Info</a>
                 </div>
             `;
             resultsContainer.appendChild(performerDiv);
+            const infoButton = performerDiv.querySelector('.info-button');
+            infoButton.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                searchArtist(name); 
+            });
         });
     } else {
         resultsContainer.innerHTML = '<p>No recommendations found.</p>';
     }
 }
-
 
 function displayResults(data, append = false) {
     const resultsContainer = document.getElementById('searchResults');
@@ -127,12 +134,8 @@ function displayResults(data, append = false) {
                 <button class="search-button-results pin-concert">Pin Concert</button>
             </div>
         `;
-
-            // Appending the event element to the results container
             resultsContainer.appendChild(eventElement);
         });
-
-        // Set up event listeners for Pin Concert buttons
         setupPinButtons();
     } else {
         resultsContainer.innerHTML = '<p>No results found for your search.</p>';
@@ -144,7 +147,7 @@ function setupPinButtons() {
         button.addEventListener('click', function() {
             const concertData = extractConcertData(this.closest('.event'));
             saveConcert(concertData, this);
-            this.textContent = 'Pinned'; // Change button text to 'Pinned'
+            this.textContent = 'Pinned'; 
             this.disabled = true; // Disable the button to prevent multiple pins
         });
     });
