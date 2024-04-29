@@ -249,42 +249,62 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
     background-color: #0056b3;
 }
 
-.recommendation-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#recommendations {
+    margin-top: 20px; 
+    padding: 20px; 
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 100%; 
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0; 
+    border-radius: 0; 
 }
 
-.recommendations-section h3 {
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
+#recommendations h3 {
+    text-align: center; 
+    padding: 0; 
+    margin-bottom: 20px; 
+}
+
+#recommendationsList {
+    display: flex; 
+    gap: 20px; 
+    overflow-x: auto; 
+    padding: 0 20px; 
+    align-items: stretch; 
+    justify-content: center; 
 }
 
 
 .performer {
+    flex: 0 0 auto;
+    margin-bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 200px;
+    background-color: white;
+}
+
+.performer:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .performer-image img {
-    width: 100%; 
-    height: 200px; 
-    object-fit: cover; 
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .performer-details {
     padding: 10px;
-    text-align: center; 
+    text-align: center;
 }
 
 .performer-details h4 {
@@ -300,6 +320,17 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
 .performer-details a {
     color: #007BFF;
     text-decoration: none;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.performer-details a:hover {
+    background-color: #0056b3;
 }
 
 .savedevents {
