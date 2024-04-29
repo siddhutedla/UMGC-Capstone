@@ -48,14 +48,14 @@ namespace ConcertFinder.Controllers
         }
 
         [HttpGet("/login")]
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "login.html");
             return PhysicalFile(filePath, "text/html");
         }
 
         [HttpGet("/register")]
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "view", "register.html");
             return PhysicalFile(filePath, "text/html");
@@ -70,7 +70,7 @@ namespace ConcertFinder.Controllers
 
 
         [HttpGet("/account")]
-        public async Task<IActionResult> AccountSettings()
+        public IActionResult AccountSettings()
         {
             if (HttpContext.Session.GetString("UserId") == null)
             {
