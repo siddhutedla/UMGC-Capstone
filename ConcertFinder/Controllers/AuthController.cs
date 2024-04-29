@@ -100,6 +100,7 @@ namespace ConcertFinder.Controllers
         }
 
         // Hash passwords
+        
         private string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())

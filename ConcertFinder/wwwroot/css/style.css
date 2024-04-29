@@ -250,32 +250,31 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
 }
 
 #recommendations {
-    margin-top: 20px; /* Space above the section */
-    background-color: #fff; /* Background color */
-    padding: 20px; /* Padding inside the section */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    width: 100%; /* Full viewport width */
-    max-width: none; /* Resets any max-width set elsewhere */
-    margin-left: 0; /* Resets any left margin */
-    margin-right: 0; /* Resets any right margin */
-    border-radius: 0; /* Resets border-radius if you want it to stretch without rounded corners */
+    margin-top: 20px; 
+    padding: 20px; 
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 100%; 
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0; 
+    border-radius: 0; 
 }
 
 #recommendations h3 {
-    text-align: center; /* Center the heading text */
-    padding: 0; /* Reset padding for the heading if needed */
-    margin-bottom: 20px; /* Space below the heading */
+    text-align: center; 
+    padding: 0; 
+    margin-bottom: 20px; 
 }
 
 #recommendationsList {
-    display: flex; /* Aligns items in a row */
-    gap: 20px; /* Spacing between items */
-    overflow-x: auto; /* Enables horizontal scrolling */
-    padding: 0 20px; /* Padding on the sides inside the list for aesthetics */
-    align-items: stretch; /* Stretches items to fill the container in the cross-axis */
-    justify-content: center; /* Centers items in the container */
+    display: flex; 
+    gap: 20px; /
+    overflow-x: auto; 
+    padding: 0 20px;
+    align-items: stretch;
+    justify-content: center; 
 }
-
 
 .performer {
     flex: 0 0 auto;
@@ -381,4 +380,3 @@ input[type="password"]:focus, input[type="text"]:focus, input[type="email"]:focu
 .btn.savedevents-buy-tickets:hover, .btn.savedevents-remove:hover {
     background-color: #0056b3;
 }
-
