@@ -40,7 +40,7 @@ document.getElementById('passwordChangeForm').addEventListener('submit', functio
         .then(response => {
             if (response.ok) {
                 alert('Password updated successfully!');
-                window.location.href = '/account-settings';
+                window.location.href = '/account';
             } else {
                 response.text().then(text => {
                     console.error('Server response:', text);

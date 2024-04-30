@@ -33,8 +33,8 @@ namespace ConcertFinder.Controllers
                 _logger.LogInformation("Received body: {RequestBody}", body);
 
                 var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
-                memoryStream.Position = 0;  
-                
+                memoryStream.Position = 0;
+
                 var savedConcert = await JsonSerializer.DeserializeAsync<SavedConcert>(memoryStream);
                 if (savedConcert == null)
                 {
@@ -67,10 +67,11 @@ namespace ConcertFinder.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Error saving concert");
-                    return StatusCode(StatusCodes.Status500InternalServerError, new { Error = "An error occurred while saving the concert." });
+                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while saving the concert: " + ex.Message);
                 }
             }
         }
+
 
         // GET: api/saved-concerts
         [HttpGet("/api/saved-concerts")]

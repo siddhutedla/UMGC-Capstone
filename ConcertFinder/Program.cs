@@ -18,6 +18,10 @@ builder.Services.AddHttpClient("SeatGeekClient", client =>
     client.BaseAddress = new Uri("https://api.seatgeek.com/2/");
 });
 
+// IOptionsMonitor
+builder.Services.AddSingleton(resolver =>
+    resolver.GetRequiredService<Microsoft.Extensions.Options.IOptionsMonitor<SeatGeekSettings>>().CurrentValue);
+
 // Configure session state with memory cache
 builder.Services.AddSession(options =>
 {
@@ -47,5 +51,4 @@ app.UseRouting();
 app.MapControllers();
 
 app.Run();
-
 
