@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ConcertFinder")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44eb4d60b5a14be0c05c779392e61cfdf191d984")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1406a3ae92346c8d1068eebf27986caf2bc55035")]
 [assembly: System.Reflection.AssemblyProductAttribute("ConcertFinder")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ConcertFinder")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

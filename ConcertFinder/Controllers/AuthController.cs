@@ -20,7 +20,6 @@ namespace ConcertFinder.Controllers
             _dbContext = dbContext;
         }
 
-        // Registration
         [HttpPost("/register")]
         public async Task<IActionResult> Register(IFormCollection form)
         {
@@ -31,21 +30,20 @@ namespace ConcertFinder.Controllers
             {
                 return BadRequest("Password cannot be empty");
             }
-
+            if (username == null)
+            {
+                return BadRequest("Username cannot be empty");
+            }
             var password = HashPassword(passwordInput);
-
             if (await _dbContext.Users.AnyAsync(u => u.Username == username))
             {
                 return StatusCode(StatusCodes.Status400BadRequest, "Username already exists");
             }
-
             var newUser = new User { Username = username, Password = password };
             await _dbContext.Users.AddAsync(newUser);
             await _dbContext.SaveChangesAsync();
-
             return Redirect("/login");
         }
-        
 
         // Login
         [HttpPost("/login")]
