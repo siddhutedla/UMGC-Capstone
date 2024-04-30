@@ -118,22 +118,26 @@ function displayResults(data, append = false) {
                 hour12: true
             });
 
+            const score = event.score || 0; // Log to check if score is being captured correctly
+            console.log('Event Score:', score);
+
             const eventElement = document.createElement('div');
             eventElement.className = 'event';
+            eventElement.dataset.score = score; // Ensure this is correctly setting the score
             const imageSrc = event.performers[0]?.images?.huge || 'placeholder-image-url.jpg';
 
             eventElement.innerHTML = `
-            <img src="${imageSrc}" alt="${event.performers[0]?.name}">
-            <div class="event-details">
-                <h4>${event.title}</h4>
-                <p>${event.venue.name}, ${event.venue.city} - ${formattedDate}</p>
-                <p>Performers: ${event.performers.map(p => p.name).join(", ")}</p>
-            </div>
-            <div class="button-container">
-                <a href="${event.url}" target="_blank" class="search-button-results">Buy Tickets</a>
-                <button class="search-button-results pin-concert">Pin Concert</button>
-            </div>
-        `;
+                <img src="${imageSrc}" alt="${event.performers[0]?.name}">
+                <div class="event-details">
+                    <h4>${event.title}</h4>
+                    <p>${event.venue.name}, ${event.venue.city} - ${formattedDate}</p>
+                    <p>Performers: ${event.performers.map(p => p.name).join(", ")}</p>
+                </div>
+                <div class="button-container">
+                    <a href="${event.url}" target="_blank" class="search-button-results">Buy Tickets</a>
+                    <button class="search-button-results pin-concert">Pin Concert</button>
+                </div>
+            `;
             resultsContainer.appendChild(eventElement);
         });
         setupPinButtons();
@@ -141,6 +145,8 @@ function displayResults(data, append = false) {
         resultsContainer.innerHTML = '<p>No results found for your search.</p>';
     }
 }
+
+
 
 function setupPinButtons() {
     document.querySelectorAll('.pin-concert').forEach(button => {
@@ -154,10 +160,13 @@ function setupPinButtons() {
 }
 
 function extractConcertData(concertElement) {
+    const score = concertElement.dataset.score; // Check if this is pulling as expected
+    console.log('Extracted Score:', score);
+
     const dateTimeText = concertElement.querySelector('.event-details p').innerText.split(" - ")[1];
     const dateParts = dateTimeText.replace('at ', '');
-
     const eventDate = new Date(dateParts);
+
     if (isNaN(eventDate.getTime())) {
         console.error('Invalid date format:', dateTimeText);
         alert("There was an error processing the date for this event. Please try again.");
@@ -165,21 +174,22 @@ function extractConcertData(concertElement) {
     }
 
     const isoDateTime = eventDate.toISOString();
-
-    // Ensure performers is a comma-separated string
     const performersList = concertElement.querySelector('.event-details p:nth-of-type(2)').innerText.substring(11);
-    const performers = Array.isArray(performersList) ? performersList.join(', ') : performersList;
+    const performers = performersList.split(', ').join(', ');
 
     return {
         title: concertElement.querySelector('h4').innerText.trim(),
         venueName: concertElement.querySelector('.event-details p').innerText.split(", ")[0].trim(),
         venueCity: concertElement.querySelector('.event-details p').innerText.split(" - ")[0].split(", ")[1].trim(),
         dateTime: isoDateTime,
-        performers: performers.trim(),
+        performers: performers,
         imageUrl: concertElement.querySelector('img').src.trim(),
-        eventUrl: concertElement.querySelector('a.search-button-results').href.trim()
+        eventUrl: concertElement.querySelector('a.search-button-results').href.trim(),
+        score: parseFloat(score)  // Parse the score as float if it's coming as string
     };
 }
+
+
 
 function saveConcert(concertData) {
     console.log('Sending concert data:', JSON.stringify(concertData));

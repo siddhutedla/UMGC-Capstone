@@ -28,6 +28,11 @@ public class SavedConcert
 
     [JsonPropertyName("eventUrl")]
     public string EventUrl { get; set; } = string.Empty;
+
+    [JsonPropertyName("score")]
+    public double Score { get; set; } = 0.0;
+
+
 }
 
 
