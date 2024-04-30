@@ -25,7 +25,14 @@ namespace ConcertFinder.Controllers
         public async Task<IActionResult> Register(IFormCollection form)
         {
             var username = form["username"].FirstOrDefault();
-            var password = HashPassword(form["password"].FirstOrDefault());
+            var passwordInput = form["password"].FirstOrDefault();
+
+            if (string.IsNullOrEmpty(passwordInput))
+            {
+                return BadRequest("Password cannot be empty");
+            }
+
+            var password = HashPassword(passwordInput);
 
             if (await _dbContext.Users.AnyAsync(u => u.Username == username))
             {
@@ -38,14 +45,21 @@ namespace ConcertFinder.Controllers
 
             return Redirect("/login");
         }
+        
 
         // Login
         [HttpPost("/login")]
         public async Task<IActionResult> Login(IFormCollection form)
         {
             var username = form["username"].FirstOrDefault();
-            var password = HashPassword(form["password"].FirstOrDefault());
+            var passwordInput = form["password"].FirstOrDefault();
 
+            if (string.IsNullOrEmpty(passwordInput))
+            {
+                return BadRequest("Password cannot be empty");
+            }
+
+            var password = HashPassword(passwordInput);
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
 
             if (user == null)
@@ -77,9 +91,18 @@ namespace ConcertFinder.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized, "User not logged in");
             }
 
-            var currentPassword = HashPassword(form["currentPassword"].FirstOrDefault());
-            var newPassword = HashPassword(form["newPassword"].FirstOrDefault());
-            var confirmPassword = HashPassword(form["confirmPassword"].FirstOrDefault());
+            var currentPasswordInput = form["currentPassword"].FirstOrDefault();
+            var newPasswordInput = form["newPassword"].FirstOrDefault();
+            var confirmPasswordInput = form["confirmPassword"].FirstOrDefault();
+
+            if (string.IsNullOrEmpty(currentPasswordInput) || string.IsNullOrEmpty(newPasswordInput) || string.IsNullOrEmpty(confirmPasswordInput))
+            {
+                return BadRequest("Passwords cannot be empty");
+            }
+
+            var currentPassword = HashPassword(currentPasswordInput);
+            var newPassword = HashPassword(newPasswordInput);
+            var confirmPassword = HashPassword(confirmPasswordInput);
 
             var user = await _dbContext.Users.FindAsync(int.Parse(userId));
 
@@ -100,7 +123,6 @@ namespace ConcertFinder.Controllers
         }
 
         // Hash passwords
-        
         private string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())
